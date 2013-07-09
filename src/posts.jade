@@ -1,0 +1,8 @@
+.row(ng-repeat="post in posts | orderBy:'date':true ")
+	.span2(id="{{ post._id }}")
+		.row
+			.span2
+				a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
+			.span2
+				a(href="#/edit/{{ post._id }}") Edit
+	.span10(ng-bind-html-unsafe="post.body | markdown")

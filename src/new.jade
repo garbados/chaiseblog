@@ -1,0 +1,11 @@
+.row
+	//- edit stuff
+	.span5
+		form(ng-submit="submit()")
+			textarea(ng-model="post.body", autofocus, style="width: 100%; height: 400px;")
+			label.span2(class="checkbox")
+				input(type="checkbox", ng-model="post.status")
+				span Publish?
+			input.btn.btn-info.btn-small.pull-right(type="submit")
+	//- preview stuff
+	.offset1.span6(ng-bind-html-unsafe="post.body | markdown")
