@@ -36,6 +36,27 @@ app.factory('getPosts', function($http, root){
   }
 });
 
+// autosave posts while writing them
+app.factory('autosave', function($http, $timeout, root){
+  return function(post){
+    (function _autosave(){
+      $http({
+        url: [root, post._id].join('/')
+      , method: 'PUT'
+      , data: post
+      })
+      .success(function(data, status){
+        post._rev = data.rev;
+        $timeout(_autosave, 5000);
+      })
+      .error(function(){
+        console.log(arguments);
+      })
+      ;
+    })();
+  }
+});
+
 // list all posts
 function PostsCtrl($scope, $http, getPosts){
   getPosts('published', {
@@ -71,11 +92,12 @@ function NewCtrl($scope, $http, $location, root){
 }
 
 // form to edit existing post
-function EditCtrl($scope, $http, $location, $routeParams, root){
+function EditCtrl($scope, $http, $location, $routeParams, root, autosave){
   var doc_url = [root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.post = data;
+    autosave($scope.post);
   });
   $scope.submit = function(){
     $http.put(doc_url, $scope.post)
