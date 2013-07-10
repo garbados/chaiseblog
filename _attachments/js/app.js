@@ -1,6 +1,7 @@
+// initialize the app :D
 var app = angular.module('app', []);
 
-// url to make requests of the database
+// config values shared throughout the app
 app.service('config', function($http){
   // set to 'root' if using a virtualhost
   this.root = '_rewrite/root';
@@ -8,6 +9,7 @@ app.service('config', function($http){
 
 // markdown converter
 app.service('md', function(){
+  // rather than modifying `this`, just return the converter object
   return new Showdown.converter();
 });
 
@@ -39,6 +41,7 @@ app.factory('getPosts', function($http, config){
   }
 });
 
+// list all posts
 function PostsCtrl($scope, $http, getPosts){
   getPosts('published', {
     success: function(docs){
@@ -47,6 +50,7 @@ function PostsCtrl($scope, $http, getPosts){
   });
 }
 
+// list all drafts
 function DraftsCtrl($scope, $http, getPosts){
   getPosts('drafts', {
     success: function(docs){
@@ -55,6 +59,7 @@ function DraftsCtrl($scope, $http, getPosts){
   });
 }
 
+// form for a new post
 function NewCtrl($scope, $http, $location, config){
   $scope.submit = function(){
     $scope.post.date = Date.now();
@@ -70,6 +75,7 @@ function NewCtrl($scope, $http, $location, config){
   }
 }
 
+// form to edit existing post
 function EditCtrl($scope, $http, $location, $routeParams, config){
   var doc_url = [config.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
@@ -87,6 +93,7 @@ function EditCtrl($scope, $http, $location, $routeParams, config){
   }
 }
 
+// list a single post, draft or otherwise
 function PostCtrl($scope, $http, $routeParams, config){
   var doc_url = [config.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
@@ -95,8 +102,8 @@ function PostCtrl($scope, $http, $routeParams, config){
   });
 }
 
-app.config(function($routeProvider, $locationProvider){
-  // $locationProvider.html5mode(true);
+// url router
+app.config(function($routeProvider){
   $routeProvider
   .when('/', {
     templateUrl: 'posts.html',
@@ -123,7 +130,7 @@ app.config(function($routeProvider, $locationProvider){
   });
 });
 
-// for dynamic content
+// markdown filter for dynamic content
 app.filter('markdown', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
