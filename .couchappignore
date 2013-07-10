@@ -6,5 +6,6 @@
   // ".*\\.bak$"
   "Makefile",
   "src",
-  "readme.md"
+  "readme.md",
+  "node_modules"
 ]

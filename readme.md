@@ -12,9 +12,17 @@ First, you'll need [jade](http://jade-lang.com/) installed as a command-line uti
 
 Then, clone the repo:
 
-	git clone [this]
+	git clone git@github.com:garbados/chaiseblog.git
 	cd chaiseblog
 
 Then, edit `Makefile` to set `DB_URI` to wherever your CouchDB instance lives. By default, Chaise installs to a local instance. 
 
-Lastly, run `make`. Your chaise blog is now live at `${DB_URI}/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
+Lastly, run `make`.
+
+Your chaise blog should now live at `${DB_URI}/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
+
+## Troubleshooting
+
+**When running `make` you get "Error: Cannot find module '/path/to//chaiseblog'"**
+
+Instead of running `make` try `make js`.
