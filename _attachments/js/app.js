@@ -5,7 +5,7 @@ var root = "root"
 app.factory('getPosts', function($http){
   return function(viewname, opts){
     var posts = $http({
-      url: root + "/_design/couchblog/_view/" + viewname,
+      url: root + "/_design/chaiseblog/_view/" + viewname,
       method: 'GET',
       params: {
         include_docs: true

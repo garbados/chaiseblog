@@ -6,3 +6,7 @@
       .span2
         a(href="#/edit/{{ post._id }}") Edit
   .span10(ng-bind-html-unsafe="post.body | markdown")
+.hero-unit(ng-hide="posts.length")
+  h1 Nothing yet.
+  p Why not 
+    a(href="#/new") write something?

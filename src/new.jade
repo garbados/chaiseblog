@@ -8,4 +8,5 @@
         span Publish?
       input.btn.btn-info.btn-small.pull-right(type="submit")
   //- preview stuff
-  .offset1.span6(ng-bind-html-unsafe="post.body | markdown")
+  .offset1.span6
+    .hero-unit(ng-bind-html-unsafe="post.body | markdown")
