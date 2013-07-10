@@ -1,11 +1,22 @@
-var root = "root"
-  , md = new Showdown.converter()
-  , app = angular.module('app', []);
+var app = angular.module('app', []);
 
-app.factory('getPosts', function($http){
+app.service('rootProvider', function($http){
+  // set to 'root' if using a virtualhost
+  this.root = '_rewrite/root';
+});
+
+// markdown converter
+app.service('md', function(){
+  return new Showdown.converter();
+});
+
+// get posts from a given view
+app.factory('getPosts', function($http, rootProvider){
   return function(viewname, opts){
     var posts = $http({
-      url: root + "/_design/chaiseblog/_view/" + viewname,
+      url: rootProvider.root 
+         + "/_design/chaiseblog/_view/" 
+         + viewname,
       method: 'GET',
       params: {
         include_docs: true
@@ -21,7 +32,7 @@ app.factory('getPosts', function($http){
       });
     }
     posts.error(function(){
-      console.log(arguments);
+      console.log(arguments, root);
     });
     return posts;
   }
@@ -43,11 +54,11 @@ function DraftsCtrl($scope, $http, getPosts){
   });
 }
 
-function NewCtrl($scope, $http, $location){
+function NewCtrl($scope, $http, $location, rootProvider){
   $scope.submit = function(){
     $scope.post.date = Date.now();
     $http({
-      url: root,
+      url: rootProvider.root,
       method: 'POST',
       data: $scope.post
     }).success(function(data, status){
@@ -58,8 +69,8 @@ function NewCtrl($scope, $http, $location){
   }
 }
 
-function EditCtrl($scope, $http, $location, $routeParams){
-  var doc_url = [root, $routeParams.id].join('/')
+function EditCtrl($scope, $http, $location, $routeParams, rootProvider){
+  var doc_url = [rootProvider.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.post = data;
@@ -75,8 +86,8 @@ function EditCtrl($scope, $http, $location, $routeParams){
   }
 }
 
-function PostCtrl($scope, $http, $routeParams){
-  var doc_url = [root, $routeParams.id].join('/')
+function PostCtrl($scope, $http, $routeParams, rootProvider){
+  var doc_url = [rootProvider.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.posts = [data];
@@ -112,7 +123,7 @@ app.config(function($routeProvider, $locationProvider){
 });
 
 // for dynamic content
-app.filter('markdown', function(){
+app.filter('markdown', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
   }
