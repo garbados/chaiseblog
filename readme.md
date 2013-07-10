@@ -4,7 +4,7 @@ A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs
 
 ![Chaise Blog](http://eggchair.maxthayer.org/img/1373405131_couch-therapy.jpg)
 
-For those thoughts you want to reflect on alone, lay back on the chaise and relax.
+For those thoughts you want to reflect on alone, lay back on the chaise and relax. Or check out the [demo](http://chaisedemo.maxthayer.org/)!
 
 ## Install
 

@@ -1,8 +1,8 @@
 .row
   //- edit stuff
   .span5
-    form(ng-submit="submit()")
-      textarea(ng-model="post.body", autofocus, style="width: 100%; height: 400px;")
+    form(ng-submit="submit()", style="position: fixed; height: 80%;")
+      textarea(ng-model="post.body", autofocus, style="width: 100%; height: 100%;")
       label.span2(class="checkbox")
         input(type="checkbox", ng-model="post.status")
         span Publish?
