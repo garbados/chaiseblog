@@ -1,6 +1,7 @@
 var app = angular.module('app', []);
 
-app.service('rootProvider', function($http){
+// url to make requests of the database
+app.service('config', function($http){
   // set to 'root' if using a virtualhost
   this.root = '_rewrite/root';
 });
@@ -11,10 +12,10 @@ app.service('md', function(){
 });
 
 // get posts from a given view
-app.factory('getPosts', function($http, rootProvider){
+app.factory('getPosts', function($http, config){
   return function(viewname, opts){
     var posts = $http({
-      url: rootProvider.root 
+      url: config.root 
          + "/_design/chaiseblog/_view/" 
          + viewname,
       method: 'GET',
@@ -32,7 +33,7 @@ app.factory('getPosts', function($http, rootProvider){
       });
     }
     posts.error(function(){
-      console.log(arguments, root);
+      console.log(arguments);
     });
     return posts;
   }
@@ -54,11 +55,11 @@ function DraftsCtrl($scope, $http, getPosts){
   });
 }
 
-function NewCtrl($scope, $http, $location, rootProvider){
+function NewCtrl($scope, $http, $location, config){
   $scope.submit = function(){
     $scope.post.date = Date.now();
     $http({
-      url: rootProvider.root,
+      url: config.root,
       method: 'POST',
       data: $scope.post
     }).success(function(data, status){
@@ -69,8 +70,8 @@ function NewCtrl($scope, $http, $location, rootProvider){
   }
 }
 
-function EditCtrl($scope, $http, $location, $routeParams, rootProvider){
-  var doc_url = [rootProvider.root, $routeParams.id].join('/')
+function EditCtrl($scope, $http, $location, $routeParams, config){
+  var doc_url = [config.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.post = data;
@@ -86,8 +87,8 @@ function EditCtrl($scope, $http, $location, $routeParams, rootProvider){
   }
 }
 
-function PostCtrl($scope, $http, $routeParams, rootProvider){
-  var doc_url = [rootProvider.root, $routeParams.id].join('/')
+function PostCtrl($scope, $http, $routeParams, config){
+  var doc_url = [config.root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.posts = [data];
