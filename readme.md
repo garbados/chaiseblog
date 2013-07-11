@@ -32,12 +32,6 @@ Chaise uses `config.json` to store settings, such as...
 * `jade`: Template variables, like the blog's title.
 * `couchapp`: URL for the remote CouchDB, and path to a node.couchapp settings file. To push somewhere remote, like [Cloudant][cloudant], set `db`.
 
-## Troubleshooting
-
-**When running `make` you get "Error: Cannot find module '/path/to//chaiseblog'"**
-
-Instead of running `make` try `make js`.
-
 [nodejs]: http://nodejs.org/
 [grunt]: http://gruntjs.com/
 [cloudant]: https://cloudant.com/
