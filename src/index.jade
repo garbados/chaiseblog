@@ -1,18 +1,16 @@
 doctype 5
 html(lang="en")
   head
-    title Chaise Blog
-    link(rel="stylesheet", href="./css/style.css")
+    title= title
+    link(rel="stylesheet", href="css/style.css")
   body(ng-app="app")
     .navbar
       .navbar-inner
-        a.brand(href="#") Chaise Blog
+        a.brand(href="#")= title
         ul.nav.pull-right
           li
             a(href="#/drafts") Drafts
           li
             a(href="#/new") Submit
     .container(ng-view)
-    script(type='text/javascript', src="js/angular.min.js")
-    script(type="text/javascript", src="js/showdown.js")
-    script(type='text/javascript', src="js/app.js")
+    script(type='text/javascript', src="js/app.min.js")

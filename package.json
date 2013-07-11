@@ -1,0 +1,27 @@
+{
+  "name": "chaiseblog",
+  "version": "0.0.1",
+  "description": "A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).",
+  "main": "app.js",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-jade": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-couchapp": "~0.1.0",
+    "grunt-contrib-cssmin": "~0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/garbados/chaiseblog.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/garbados/chaiseblog/issues"
+  }
+}

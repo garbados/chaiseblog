@@ -1,3 +1,5 @@
+(function(){"use strict";})();
+
 // initialize the app :D
 var app = angular.module('app', []);
 
@@ -8,15 +10,27 @@ app.constant('root', 'root');
 // markdown converter
 app.value('md', new Showdown.converter());
 
+// // determine whether user is logged in
+// app.service('auth', function($http, root){
+//   this.isLoggedIn = false;
+//   $http({
+//     url: 
+//   })
+//   .success(function(data, status){
+
+//   })
+//   .error(function(data, status){
+
+//   })
+// });
+
 // get posts from a given view
 app.factory('getPosts', function($http, root){
   return function(viewname, opts){
     var posts = $http({
-      url: root 
-         + "/_design/chaiseblog/_view/" 
-         + viewname,
-      method: 'GET',
-      params: {
+      url: [root, "_design/chaiseblog/_view", viewname].join('/')
+    , method: 'GET'
+    , params: {
         include_docs: true
       }
     });
@@ -33,7 +47,7 @@ app.factory('getPosts', function($http, root){
       console.log(arguments);
     });
     return posts;
-  }
+  };
 });
 
 // autosave posts while writing them
@@ -54,14 +68,14 @@ app.factory('autosave', function($http, $timeout, root){
       })
       ;
     })();
-  }
+  };
 });
 
 // list all posts
 function PostsCtrl($scope, $http, getPosts){
   getPosts('published', {
     success: function(docs){
-      $scope.posts = docs
+      $scope.posts = docs;
     }
   });
 }
@@ -70,7 +84,7 @@ function PostsCtrl($scope, $http, getPosts){
 function DraftsCtrl($scope, $http, getPosts){
   getPosts('drafts', {
     success: function(docs){
-      $scope.posts = docs
+      $scope.posts = docs;
     }
   });
 }
@@ -88,7 +102,7 @@ function NewCtrl($scope, $http, $location, root){
     }).error(function(){
       console.log(arguments);
     });
-  }
+  };
 }
 
 // form to edit existing post
@@ -107,7 +121,7 @@ function EditCtrl($scope, $http, $location, $routeParams, root, autosave){
     .error(function(){
       console.log(arguments);
     });
-  }
+  };
 }
 
 // list a single post, draft or otherwise
@@ -151,5 +165,5 @@ app.config(function($routeProvider){
 app.filter('markdown', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
-  }
+  };
 });
