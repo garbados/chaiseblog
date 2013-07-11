@@ -8,21 +8,36 @@ For those thoughts you want to reflect on alone, lay back on the chaise and rela
 
 ## Install
 
-First, you'll need [jade](http://jade-lang.com/) installed as a command-line utility. See how [here](http://jade-lang.com/command-line/).
+Chaise depends on...
 
-Then, clone the repo:
+* [node.js][nodejs]
+* [grunt][grunt]
 
+You'll need those two on your computer. Once you do, run this:
+	
+	// get the repo
 	git clone git@github.com:garbados/chaiseblog.git
 	cd chaiseblog
+	// install dependencies
+	npm install
+	// compile JavaScript, CSS, and Jade to our couchapp
+	grunt
 
-Then, edit `Makefile` to set `DB_URI` to wherever your CouchDB instance lives. By default, Chaise installs to a local instance. 
+Your chaise blog should now live at `http://localhost:5984/chaiseblog/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
 
-Lastly, run `make`.
+## Configuration
 
-Your chaise blog should now live at `${DB_URI}/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
+Chaise uses `config.json` to store settings, such as...
+
+* `jade`: Template variables, like the blog's title.
+* `couchapp`: URL for the remote CouchDB, and path to a node.couchapp settings file. To push somewhere remote, like [Cloudant][cloudant], set `db`.
 
 ## Troubleshooting
 
 **When running `make` you get "Error: Cannot find module '/path/to//chaiseblog'"**
 
 Instead of running `make` try `make js`.
+
+[nodejs]: http://nodejs.org/
+[grunt]: http://gruntjs.com/
+[cloudant]: https://cloudant.com/
