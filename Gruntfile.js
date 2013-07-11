@@ -55,6 +55,12 @@ module.exports = function(grunt) {
           '_attachments/css/style.css': ['src/css/bootswatch.css', 'src/css/custom.css']  
         }
       }
+    },
+    couchapp: {
+      blog: {
+        db: config.db_uri
+      , app: 'app.js' 
+      }
     }
   });
 
@@ -73,6 +79,7 @@ module.exports = function(grunt) {
   , 'uglify'
   , 'jade'
   , 'cssmin'
+  , 'couchapp'
   ]);
 
 };
