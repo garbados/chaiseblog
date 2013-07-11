@@ -10,20 +10,6 @@ app.constant('root', 'root');
 // markdown converter
 app.value('md', new Showdown.converter());
 
-// // determine whether user is logged in
-// app.service('auth', function($http, root){
-//   this.isLoggedIn = false;
-//   $http({
-//     url: 
-//   })
-//   .success(function(data, status){
-
-//   })
-//   .error(function(data, status){
-
-//   })
-// });
-
 // get posts from a given view
 app.factory('getPosts', function($http, root){
   return function(viewname, opts){

@@ -2,5 +2,8 @@
   "jade": {
     "title": "Chaise Blog"
   },
-  "db_uri": "http://localhost:5984/blog"
+  "couchapp": {
+  	"db": "http://localhost:5984/chaiseblog",
+  	"app": "app.js"
+  }
 }

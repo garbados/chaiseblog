@@ -57,10 +57,7 @@ module.exports = function(grunt) {
       }
     },
     couchapp: {
-      blog: {
-        db: config.db_uri
-      , app: 'app.js' 
-      }
+      blog: config.couchapp
     }
   });
 
