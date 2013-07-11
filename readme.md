@@ -15,12 +15,12 @@ Chaise depends on...
 
 You'll need those two on your computer. Once you do, run this:
 	
-	// get the repo
+	# get the repo
 	git clone git@github.com:garbados/chaiseblog.git
 	cd chaiseblog
-	// install dependencies
+	# install dependencies
 	npm install
-	// compile JavaScript, CSS, and Jade to our couchapp
+	# compile JavaScript, CSS, and Jade to our couchapp
 	grunt
 
 Your chaise blog should now live at `http://localhost:5984/chaiseblog/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
