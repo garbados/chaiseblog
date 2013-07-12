@@ -1,11 +1,11 @@
 .row(ng-repeat="post in posts | orderBy:'date':true ")
-  .span2(id="{{ post._id }}")
-    .row
-      .span2
-        a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
-      .span2
-        a(href="#/edit/{{ post._id }}") Edit
-  .span10(ng-bind-html-unsafe="post.body | markdown")
+  ul.span2.unstyled(id="{{ post._id }}")
+    li(style="text-align: right;")
+      a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
+    li(style="text-align: right;")
+      a(href="#/edit/{{ post._id }}") Edit
+  .span10
+    .hero-unit(ng-bind-html-unsafe="post.body | markdown")
 .hero-unit(ng-hide="posts.length")
   h1 Nothing yet.
   p Why not 
