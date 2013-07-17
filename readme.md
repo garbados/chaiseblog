@@ -2,7 +2,7 @@
 
 A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).
 
-![Chaise Blog](http://eggchair.maxthayer.org/img/1373405131_couch-therapy.jpg)
+![Chaise Blog](http://eggchair.maxthayer.org/api/couch-therapy.jpg/img)
 
 For those thoughts you want to reflect on alone, lay back on the chaise and relax. Or check out the [demo](http://chaisedemo.maxthayer.org/)!
 
