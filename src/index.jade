@@ -7,10 +7,12 @@ html(lang="en")
     .navbar
       .navbar-inner
         a.brand(href="#")= title
-        ul.nav.pull-right
+        ul.nav
           li
             a(href="#/drafts") Drafts
           li
             a(href="#/new") Submit
+    a(href="https://github.com/garbados/chaiseblog")
+      img(style="position: absolute; top: 0; right: 0; border: 0;", src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png", alt="Fork me on GitHub")
     .container(ng-view)
     script(type='text/javascript', src="js/app.min.js")
