@@ -4,11 +4,11 @@
     "method": "GET",
     "query": {}
 },{
-    "from": "/root",
+    "from": "/api",
     "to": "/../../",
     "query": {} 
 },{
-    "from": "/root/*",
+    "from": "/api/*",
     "to": "/../../*",
     "query": {} 
 },{

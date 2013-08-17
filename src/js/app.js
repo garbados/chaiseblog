@@ -5,7 +5,7 @@ var app = angular.module('app', []);
 
 // root url to make database requests against
 // set to '_rewrite/root' if not using a virtualhost
-app.constant('root', 'root');
+app.constant('root', 'api');
 
 // markdown converter
 app.value('md', new Showdown.converter());
@@ -47,7 +47,8 @@ app.factory('autosave', function($http, $timeout, root){
       })
       .success(function(data, status){
         post._rev = data.rev;
-        $timeout(_autosave, 5000);
+        // save every thirty seconds
+        $timeout(_autosave, 1000 * 30);
       })
       .error(function(){
         console.log(arguments);
@@ -58,7 +59,7 @@ app.factory('autosave', function($http, $timeout, root){
 });
 
 // list all posts
-function PostsCtrl($scope, $http, getPosts){
+function PostsCtrl($scope, getPosts){
   getPosts('published', {
     success: function(docs){
       $scope.posts = docs;
@@ -67,7 +68,7 @@ function PostsCtrl($scope, $http, getPosts){
 }
 
 // list all drafts
-function DraftsCtrl($scope, $http, getPosts){
+function DraftsCtrl($scope, getPosts){
   getPosts('drafts', {
     success: function(docs){
       $scope.posts = docs;
@@ -120,7 +121,7 @@ function PostCtrl($scope, $http, $routeParams, root){
 }
 
 // url router
-app.config(function($routeProvider){
+app.config(function($routeProvider, $locationProvider){
   $routeProvider
   .when('/', {
     templateUrl: 'posts.html',
