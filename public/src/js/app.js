@@ -5,7 +5,7 @@ var app = angular.module('app', []);
 
 // root url to make database requests against
 // set to '_rewrite/root' if not using a virtualhost
-app.constant('root', 'api');
+app.constant('root', '/chaise-public');
 
 // markdown converter
 app.value('md', new Showdown.converter());
@@ -36,28 +36,6 @@ app.factory('getPosts', function($http, root){
   };
 });
 
-// autosave posts while writing them
-app.factory('autosave', function($http, $timeout, root){
-  return function(post){
-    (function _autosave(){
-      $http({
-        url: [root, post._id].join('/')
-      , method: 'PUT'
-      , data: post
-      })
-      .success(function(data, status){
-        post._rev = data.rev;
-        // save every thirty seconds
-        $timeout(_autosave, 1000 * 30);
-      })
-      .error(function(){
-        console.log(arguments);
-      })
-      ;
-    })();
-  };
-});
-
 // list all posts
 function PostsCtrl($scope, getPosts){
   getPosts('published', {
@@ -65,50 +43,6 @@ function PostsCtrl($scope, getPosts){
       $scope.posts = docs;
     }
   });
-}
-
-// list all drafts
-function DraftsCtrl($scope, getPosts){
-  getPosts('drafts', {
-    success: function(docs){
-      $scope.posts = docs;
-    }
-  });
-}
-
-// form for a new post
-function NewCtrl($scope, $http, $location, root){
-  $scope.submit = function(){
-    $scope.post.date = Date.now();
-    $http({
-      url: root,
-      method: 'POST',
-      data: $scope.post
-    }).success(function(data, status){
-      $location.path('/');
-    }).error(function(){
-      console.log(arguments);
-    });
-  };
-}
-
-// form to edit existing post
-function EditCtrl($scope, $http, $location, $routeParams, root, autosave){
-  var doc_url = [root, $routeParams.id].join('/')
-    , post = $http.get(doc_url);
-  post.success(function(data, status){
-    $scope.post = data;
-    autosave($scope.post);
-  });
-  $scope.submit = function(){
-    $http.put(doc_url, $scope.post)
-    .success(function(data, status){
-      $location.path('/');
-    })
-    .error(function(){
-      console.log(arguments);
-    });
-  };
 }
 
 // list a single post, draft or otherwise
@@ -126,18 +60,6 @@ app.config(function($routeProvider, $locationProvider){
   .when('/', {
     templateUrl: 'posts.html',
     controller: PostsCtrl
-  })
-  .when('/drafts', {
-    templateUrl: 'posts.html',
-    controller: DraftsCtrl
-  })
-  .when('/new', {
-    templateUrl: 'new.html',
-    controller: NewCtrl
-  })
-  .when('/edit/:id', {
-    templateUrl: 'new.html',
-    controller: EditCtrl
   })
   .when('/post/:id', {
     templateUrl: 'posts.html',

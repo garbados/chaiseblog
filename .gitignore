@@ -1,4 +1,7 @@
-_attachments/css/*.css
-_attachments/js/*.js
-_attachments/*.html
+admin/_attachments/css/*.css
+admin/_attachments/js/*.js
+admin/_attachments/*.html
+public/_attachments/css/*.css
+public/_attachments/js/*.js
+public/_attachments/*.html
 node_modules

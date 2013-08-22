@@ -5,7 +5,7 @@ var app = angular.module('app', []);
 
 // root url to make database requests against
 // set to '_rewrite/root' if not using a virtualhost
-app.constant('root', 'api');
+app.constant('root', '/chaise-admin');
 
 // markdown converter
 app.value('md', new Showdown.converter());
@@ -36,6 +36,18 @@ app.factory('getPosts', function($http, root){
   };
 });
 
+app.factory('deletePost', function($http, root){
+  return function(post){
+    return $http({
+      url: [root, post._id].join('/')
+    , method: 'DELETE'
+    , params: {
+        rev: post._rev
+      }
+    })
+  }
+});
+
 // autosave posts while writing them
 app.factory('autosave', function($http, $timeout, root){
   return function(post){
@@ -58,22 +70,31 @@ app.factory('autosave', function($http, $timeout, root){
   };
 });
 
-// list all posts
-function PostsCtrl($scope, getPosts){
-  getPosts('published', {
-    success: function(docs){
-      $scope.posts = docs;
+app.factory('listCtrl', function(getPosts, deletePost){
+  return function($scope, view){
+    $scope.delete = function(post){
+      if(confirm("Are you sure you want to delete that post?")){
+        deletePost(post).success(function(){
+          $scope.posts = $scope.posts.filter(function(doc){ return doc._id !== post._id })
+        }) 
+      }
     }
-  });
+    getPosts(view, {
+      success: function(docs){
+        $scope.posts = docs;
+      }
+    });
+  }
+})
+
+// list all posts
+function PostsCtrl($scope, listCtrl){
+  listCtrl($scope, 'published')
 }
 
 // list all drafts
-function DraftsCtrl($scope, getPosts){
-  getPosts('drafts', {
-    success: function(docs){
-      $scope.posts = docs;
-    }
-  });
+function DraftsCtrl($scope, listCtrl){
+  listCtrl($scope, 'drafts')
 }
 
 // form for a new post

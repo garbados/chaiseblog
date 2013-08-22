@@ -3,7 +3,9 @@
     li(style="text-align: right;")
       a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
     li(style="text-align: right;")
-      a(href="#/edit/{{ post._id }}") Edit
+      a.btn(href="#/edit/{{ post._id }}") Edit
+    li(style="text-align: right;")
+      button.btn(ng-click="delete(post)") Delete
   .span10
     .hero-unit(ng-bind-html-unsafe="post.body | markdown")
 .hero-unit(ng-hide="posts.length")

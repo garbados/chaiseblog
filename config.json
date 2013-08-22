@@ -1,4 +1,7 @@
 {
+  "jade": {
+    "title": "Chaiseblog"
+  },
   "public": {
   	"db": "http://localhost:5984/chaise-public",
   	"app": "public/index.js"

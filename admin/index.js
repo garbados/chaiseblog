@@ -4,7 +4,7 @@ var couchapp = require('couchapp')
 ddoc = {
     _id: '_design/chaiseblog'
   , rewrites: require('../rewrites.json')
-  , views: couchapp.loadFiles('../views')
+  , views: couchapp.loadFiles(path.join(__dirname, '..', 'views'))
   , filters: {
       published: function(doc, req){ return doc.status }
     }

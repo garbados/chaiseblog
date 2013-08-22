@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      files: ['admin/src/js/index.js', 'public/src/js/index.js'],
+      files: ['admin/src/js/app.js', 'public/src/js/app.js'],
       options: {
         browser: true
       , laxcomma: true
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        // mangle: false
+        mangle: false
       },
       build: {
         files: {
@@ -53,11 +53,12 @@ module.exports = function(grunt) {
     jade: {
       html: {
         files: {
-          'admin/_attachments/': ['src/*.jade']
-        , 'public/_attachments/': ['src/*.jade']
+          'admin/_attachments/': ['admin/src/*.jade']
+        , 'public/_attachments/': ['public/src/*.jade']
         },
         options: {
-          client: false
+          locals: config.jade
+        , client: false
         }
       }
     },
@@ -66,6 +67,20 @@ module.exports = function(grunt) {
         files: {
           'admin/_attachments/css/style.css': ['admin/src/css/bootswatch.css', 'admin/src/css/custom.css']
         , 'public/_attachments/css/style.css': ['public/src/css/bootswatch.css', 'public/src/css/custom.css']  
+        }
+      }
+    },
+    mkcouchdb: {
+      admin: {
+        db: config.admin.db
+      , options: {
+          okay_if_exists: true
+        } 
+      }
+    , "public": {
+        db: config["public"].db
+      , options: {
+          okay_if_exists: true
         }
       }
     },
@@ -83,17 +98,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-couchapp');
 
-  // Default task(s).
   grunt.registerTask('replicate', "Set up filtered replication between admin and public.", require('./replicate'))
 
-  grunt.registerTask('default', [
-    'jshint'
-  , 'concat'
-  , 'uglify'
-  , 'jade'
-  , 'cssmin'
-  , 'couchapp'
-  , 'replicate'
-  ]);
+  // Default task(s).
+  var default_tasks = ['jshint', 'concat', 'uglify', 'jade', 'cssmin', 'mkcouchdb:admin', 'couchapp:admin']
+  if('public' in config){
+    default_tasks.push('mkcouchdb:public')
+    default_tasks.push('couchapp:public')
+    if('replication_db' in config){
+      default_tasks.push('replicate')
+    }
+  }
+  grunt.registerTask('default', default_tasks);
 
 };
