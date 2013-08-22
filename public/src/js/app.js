@@ -5,7 +5,7 @@ var app = angular.module('app', []);
 
 // root url to make database requests against
 // set to '_rewrite/root' if not using a virtualhost
-app.constant('root', '/chaise-public');
+app.constant('root', 'api');
 
 // markdown converter
 app.value('md', new Showdown.converter());
