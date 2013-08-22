@@ -1,9 +1,11 @@
 {
-  "jade": {
-    "title": "Chaise Blog"
+  "public": {
+  	"db": "http://localhost:5984/chaise-public",
+  	"app": "public/index.js"
   },
-  "couchapp": {
-  	"db": "http://localhost:5984/chaiseblog",
-  	"app": "app.js"
-  }
+  "admin": {
+    "db": "http://localhost:5984/chaise-admin",
+    "app": "admin/index.js"
+  },
+  "replication_db": "http://localhost:5984/_replicator"
 }

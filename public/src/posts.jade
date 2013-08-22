@@ -1,0 +1,12 @@
+.row(ng-repeat="post in posts | orderBy:'date':true ")
+  ul.span2.unstyled(id="{{ post._id }}")
+    li(style="text-align: right;")
+      a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
+    li(style="text-align: right;")
+      a(href="#/edit/{{ post._id }}") Edit
+  .span10
+    .hero-unit(ng-bind-html-unsafe="post.body | markdown")
+.hero-unit(ng-hide="posts.length")
+  h1 Nothing yet.
+  p Why not 
+    a(href="#/new") write something?

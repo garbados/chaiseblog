@@ -4,8 +4,10 @@ var couchapp = require('couchapp')
 
 ddoc = {
     _id: '_design/chaiseblog'
-  , rewrites: require('./rewrites.json')
-  , views: couchapp.loadFiles('./views')
+  , rewrites: require('../rewrites.json')
+  , views: {
+      published: couchapp.loadFiles('../views/published')
+    }
   , lists: {}
   , shows: {}
 }
