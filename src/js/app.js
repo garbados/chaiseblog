@@ -1,18 +1,15 @@
 (function(){"use strict";})();
 
 // initialize the app :D
-var app = angular.module('app', []);
-
+var app = angular.module('app', [])
 // root URL for the database. 
 // Change if you change the name of the database
 // or the similarly-named value in `rewrites.json`
-app.constant('root', '/chaise');
-
+.constant('root', '/chaise')
 // markdown converter
-app.value('md', new Showdown.converter());
-
+.value('md', new Showdown.converter())
 // get posts from a given view
-app.factory('getPosts', function($http, root){
+.factory('getPosts', ['$http', 'root', function($http, root){
   return function(viewname, opts){
     var posts = $http({
       url: [root, "_design/chaiseblog/_view", viewname].join('/'),
@@ -38,16 +35,15 @@ app.factory('getPosts', function($http, root){
     });
     return posts;
   };
-});
-
+}])
 // autosave posts while writing them
-app.factory('autosave', function($http, $timeout, root){
+.factory('autosave', ['$http', '$timeout', 'root', function($http, $timeout, root){
   return function(post){
     (function _autosave(){
       $http({
-        url: [root, post._id].join('/')
-      , method: 'PUT'
-      , data: post
+        url: [root, post._id].join('/'),
+        method: 'PUT',
+        data: post
       })
       .success(function(data, status){
         post._rev = data.rev;
@@ -60,28 +56,25 @@ app.factory('autosave', function($http, $timeout, root){
       ;
     })();
   };
-});
-
+}])
 // list all posts
-function PostsCtrl($scope, getPosts){
+.controller('PostsCtrl', ['$scope', 'getPosts', function($scope, getPosts){
   getPosts('published', {
     success: function(docs){
       $scope.posts = docs;
     }
   });
-}
-
+}])
 // list all drafts
-function DraftsCtrl($scope, getPosts){
+.controller('DraftsCtrl', ['$scope', 'getPosts', function($scope, getPosts){
   getPosts('drafts', {
     success: function(docs){
       $scope.posts = docs;
     }
   });
-}
-
+}])
 // form for a new post
-function NewCtrl($scope, $http, $location, root){
+.controller('NewCtrl', ['$scope', '$http', '$location', 'root', function($scope, $http, $location, root){
   $scope.submit = function(){
     $scope.post.date = Date.now();
     $http({
@@ -94,12 +87,11 @@ function NewCtrl($scope, $http, $location, root){
       console.log(arguments);
     });
   };
-}
-
+}])
 // form to edit existing post
-function EditCtrl($scope, $http, $location, $routeParams, root, autosave){
-  var doc_url = [root, $routeParams.id].join('/')
-    , post = $http.get(doc_url);
+.controller('EditCtrl', ['$scope', '$http', '$location', '$routeParams', 'root', 'autosave', function($scope, $http, $location, $routeParams, root, autosave){
+  var doc_url = [root, $routeParams.id].join('/'),
+      post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.post = data;
     autosave($scope.post);
@@ -113,48 +105,45 @@ function EditCtrl($scope, $http, $location, $routeParams, root, autosave){
       console.log(arguments);
     });
   };
-}
-
+}])
 // list a single post, draft or otherwise
-function PostCtrl($scope, $http, $routeParams, root){
-  var doc_url = [root, $routeParams.id].join('/')
-    , post = $http.get(doc_url);
+.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'root', function($scope, $http, $routeParams, root){
+  var doc_url = [root, $routeParams.id].join('/'),
+      post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.posts = [data];
   });
-}
-
+}])
 // url router
-app.config(function($routeProvider, $locationProvider){
+.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
   $routeProvider
   .when('/', {
     templateUrl: 'posts.html',
-    controller: PostsCtrl
+    controller: 'PostsCtrl'
   })
   .when('/drafts', {
     templateUrl: 'posts.html',
-    controller: DraftsCtrl
+    controller: 'DraftsCtrl'
   })
   .when('/new', {
     templateUrl: 'new.html',
-    controller: NewCtrl
+    controller: 'NewCtrl'
   })
   .when('/edit/:id', {
     templateUrl: 'new.html',
-    controller: EditCtrl
+    controller: 'EditCtrl'
   })
   .when('/post/:id', {
     templateUrl: 'posts.html',
-    controller: PostCtrl
+    controller: 'PostCtrl'
   })
   .otherwise({
     redirectTo: '/'
   });
-});
-
+}])
 // markdown filter for dynamic content
-app.filter('markdown', function(md){
+.filter('markdown', ['md', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
   };
-});
+}]);

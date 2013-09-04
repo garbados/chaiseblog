@@ -6,11 +6,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      files: ['src/js/app.js'],
-      options: {
-        browser: true
-      , laxcomma: true
-      }
+      files: ['src/js/app.js', 'Gruntfile.js', 'app.js'],
+      options: {}
     },
     concat: {
       options: {
@@ -20,18 +17,16 @@ module.exports = function(grunt) {
       dist: {
         // the files to concatenate
         src: [
-          'src/js/angular.min.js'
-        , 'src/js/showdown.js'
-        , 'src/js/app.js'
+          'src/js/angular.min.js',
+          'src/js/showdown.js',
+          'src/js/app.js'
         ],
         // the location of the resulting JS file
         dest: '_attachments/js/app.js'
       }
     },
     uglify: {
-      options: {
-        mangle: false
-      },
+      options: {},
       build: {
         files: {
           '_attachments/js/app.min.js': ['_attachments/js/app.js']
@@ -44,8 +39,8 @@ module.exports = function(grunt) {
           '_attachments/': ['src/*.jade']
         },
         options: {
-          locals: config.jade
-        , client: false
+          locals: config.jade,
+          client: false
         }
       }
     },
@@ -71,12 +66,12 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', [
-    'jshint'
-  , 'concat'
-  , 'uglify'
-  , 'jade'
-  , 'cssmin'
-  , 'couchapp'
+    'jshint',
+    'concat',
+    'uglify',
+    'jade',
+    'cssmin',
+    'couchapp'
   ]);
 
 };
