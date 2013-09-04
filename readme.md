@@ -25,7 +25,7 @@ You'll need those two on your computer. Once you do, run this:
 	# if your couchdb target requires credentials, enter them in `config.json`
 	grunt
 
-Your chaise blog should now live at `http://localhost:5984/chaiseblog/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
+Your chaise blog should now live at `http://localhost:5984/chaise/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
 
 ## Configuration
 

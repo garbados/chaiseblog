@@ -3,9 +3,10 @@
 // initialize the app :D
 var app = angular.module('app', []);
 
-// root url to make database requests against
-// set to '_rewrite/root' if not using a virtualhost
-app.constant('root', 'api');
+// root URL for the database. 
+// Change if you change the name of the database
+// or the similarly-named value in `rewrites.json`
+app.constant('root', '/chaise');
 
 // markdown converter
 app.value('md', new Showdown.converter());
@@ -14,23 +15,26 @@ app.value('md', new Showdown.converter());
 app.factory('getPosts', function($http, root){
   return function(viewname, opts){
     var posts = $http({
-      url: [root, "_design/chaiseblog/_view", viewname].join('/')
-    , method: 'GET'
-    , params: {
+      url: [root, "_design/chaiseblog/_view", viewname].join('/'),
+      method: 'GET',
+      params: {
         include_docs: true
       }
     });
     if(opts.success){
       posts.success(function(data, status){
-        var docs = [];
-        for(var i in data.rows){
-          docs.push(data.rows[i].doc);
-        }
+        var docs = data.rows.map(function(row){
+          return row.doc;
+        });
         opts.success(docs);
       });
     }
     posts.error(function(){
-      console.log(arguments);
+      if (opts.error) {
+        opts.error.apply(opts, arguments);
+      } else {
+        console.log(arguments);
+      }
     });
     return posts;
   };

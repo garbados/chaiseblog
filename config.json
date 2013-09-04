@@ -3,7 +3,7 @@
     "title": "Chaise Blog"
   },
   "couchapp": {
-  	"db": "http://localhost:5984/chaiseblog",
+  	"db": "http://localhost:5984/chaise",
   	"app": "app.js"
   }
 }
