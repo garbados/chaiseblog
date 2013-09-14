@@ -1,17 +1,17 @@
 (function(){"use strict";})();
 
 // initialize the app :D
-var app = angular.module('app', []);
+var app = angular.module('app', [])
 
 // root url to make database requests against
 // set to '_rewrite/root' if not using a virtualhost
-app.constant('root', '_rewrite/api');
+.constant('root', '/chaise-public')
 
 // markdown converter
-app.value('md', new Showdown.converter());
+.value('md', new Showdown.converter())
 
 // get posts from a given view
-app.factory('getPosts', function($http, root){
+.factory('getPosts', function($http, root){
   return function(viewname, opts){
     var posts = $http({
       url: [root, "_design/chaiseblog/_view", viewname].join('/')
@@ -34,44 +34,44 @@ app.factory('getPosts', function($http, root){
     });
     return posts;
   };
-});
+})
 
 // list all posts
-function PostsCtrl($scope, getPosts){
+.controller('PostsCtrl', ['$scope', 'getPosts', function ($scope, getPosts) {
   getPosts('published', {
     success: function(docs){
       $scope.posts = docs;
     }
   });
-}
+}])
 
 // list a single post, draft or otherwise
-function PostCtrl($scope, $http, $routeParams, root){
+.controller('PostCtrl' ['$scope', '$http', '$routeParams', 'root', function ($scope, $http, $routeParams, root) {
   var doc_url = [root, $routeParams.id].join('/')
     , post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.posts = [data];
   });
-}
+}])
 
 // url router
-app.config(function($routeProvider, $locationProvider){
+.config(function($routeProvider, $locationProvider){
   $routeProvider
   .when('/', {
     templateUrl: 'posts.html',
-    controller: PostsCtrl
+    controller: 'PostsCtrl'
   })
   .when('/post/:id', {
     templateUrl: 'posts.html',
-    controller: PostCtrl
+    controller: 'PostCtrl'
   })
   .otherwise({
     redirectTo: '/'
   });
-});
+})
 
 // markdown filter for dynamic content
-app.filter('markdown', function(md){
+.filter('markdown', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
   };
