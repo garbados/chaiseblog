@@ -25,7 +25,7 @@ You'll need those two on your computer. Once you do, run this:
 	# if your couchdb target requires credentials, enter them in `config.json`
 	grunt
 
-Your chaise blog should now live at `http://localhost:5984/chaise/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
+Your chaise blog should now live at `http://localhost:5984/chaise-admin/_design/chaiseblog/_rewrite`. You can use [virtual hosts](http://couchdb.readthedocs.org/en/latest/configuring.html?highlight=virtual#virtual-hosts) to make that a prettier URL.
 
 ## Configuration
 
@@ -37,6 +37,14 @@ Chaise uses `config.json` to store settings, such as...
 [nodejs]: http://nodejs.org/
 [grunt]: http://gruntjs.com/
 [cloudant]: https://cloudant.com/
+
+## Taking it Public!
+
+Diaries are cool, but what if you want to share your ramblings with the world? Chaise has you covered.
+
+In `config.json` there's a `public` field which tells Chaise where to push a public version of the site. By default, it pushes to `http://localhost:5984/chaise-public`. The interface doesn't expose any means of altering your data, thus eliminating random clicking as an attack vector. Take that, black hats!
+
+If you're hosting your public site on a Cloudant database, remember to make the database publicly readable through the Permissions tab!
 
 ## License
 

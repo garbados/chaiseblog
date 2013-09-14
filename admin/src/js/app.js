@@ -36,6 +36,18 @@ var app = angular.module('app', [])
     return posts;
   };
 }])
+// delete posts :O
+.factory('deletePost', function($http, root){
+  return function(post){
+    return $http({
+      url: [root, post._id].join('/')
+    , method: 'DELETE'
+    , params: {
+        rev: post._rev
+      }
+    })
+  }
+})
 // autosave posts while writing them
 .factory('autosave', ['$http', '$timeout', 'root', function($http, $timeout, root){
   return function(post){
@@ -72,6 +84,30 @@ var app = angular.module('app', [])
       $scope.posts = docs;
     }
   });
+}])
+.factory('listCtrl', function(getPosts, deletePost){
+  return function($scope, view){
+    $scope.delete = function(post){
+      if(confirm("Are you sure you want to delete that post?")){
+        deletePost(post).success(function(){
+          $scope.posts = $scope.posts.filter(function(doc){ return doc._id !== post._id })
+        }) 
+      }
+    }
+    getPosts(view, {
+      success: function(docs){
+        $scope.posts = docs;
+      }
+    });
+  }
+})
+// list all posts
+.controller('PostsCtrl', ['$scope', 'listCtrl', function($scope, listCtrl){
+  listCtrl($scope, 'published')
+}])
+// list all drafts
+.controller('DraftsCtrl', ['$scope', 'listCtrl', function($scope, listCtrl){
+  listCtrl($scope, 'drafts')
 }])
 // form for a new post
 .controller('NewCtrl', ['$scope', '$http', '$location', 'root', function($scope, $http, $location, root){

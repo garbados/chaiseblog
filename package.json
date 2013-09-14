@@ -9,9 +9,10 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-couchapp": "~0.1.0",
+    "grunt-couchapp": "git@github.com:garbados/grunt-couchapp.git",
     "grunt-contrib-cssmin": "~0.6.1",
-    "couchapp": "~0.10.0"
+    "couchapp": "~0.10.0",
+    "nano": "~4.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

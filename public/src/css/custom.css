@@ -1,0 +1,9 @@
+.newpost {
+  height: 200px;
+}
+
+.newpost-preview {
+  margin-top: 10px;
+  height: 400px;
+  overflow: scroll;
+}

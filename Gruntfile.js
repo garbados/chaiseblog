@@ -6,7 +6,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      files: ['src/js/app.js', 'Gruntfile.js', 'app.js'],
+      files: [
+        'admin/src/js/app.js', 
+        'admin/app.js',
+        'public/src/js/app.js',
+        'public/app.js',
+        'Gruntfile.js'
+      ],
       options: {}
     },
     concat: {
@@ -14,29 +20,41 @@ module.exports = function(grunt) {
         // define a string to put between each file in the concatenated output
         separator: ';'
       },
-      dist: {
+      admin: {
         // the files to concatenate
         src: [
-          'src/js/angular.min.js',
-          'src/js/showdown.js',
-          'src/js/app.js'
+          'admin/src/js/angular.min.js',
+          'admin/src/js/showdown.js',
+          'admin/src/js/app.js'
         ],
         // the location of the resulting JS file
-        dest: '_attachments/js/app.js'
+        dest: 'admin/_attachments/js/app.js'
+      },
+      "public": {
+        // the files to concatenate
+        src: [
+          'public/src/js/angular.min.js'
+        , 'public/src/js/showdown.js'
+        , 'public/src/js/app.js'
+        ],
+        // the location of the resulting JS file
+        dest: 'public/_attachments/js/app.js'
       }
     },
     uglify: {
       options: {},
       build: {
         files: {
-          '_attachments/js/app.min.js': ['_attachments/js/app.js']
+          'admin/_attachments/js/app.min.js': ['admin/_attachments/js/app.js']
+        , 'public/_attachments/js/app.min.js': ['public/_attachments/js/app.js']
         }
       }
     },
     jade: {
       html: {
         files: {
-          '_attachments/': ['src/*.jade']
+          'admin/_attachments/': ['admin/src/*.jade']
+        , 'public/_attachments/': ['public/src/*.jade']
         },
         options: {
           locals: config.jade,
@@ -47,12 +65,28 @@ module.exports = function(grunt) {
     cssmin: {
       minify: {
         files: {
-          '_attachments/css/style.css': ['src/css/bootswatch.css', 'src/css/custom.css']  
+          'admin/_attachments/css/style.css': ['admin/src/css/bootswatch.css', 'admin/src/css/custom.css']
+        , 'public/_attachments/css/style.css': ['public/src/css/bootswatch.css', 'public/src/css/custom.css']  
+        }
+      }
+    },
+    mkcouchdb: {
+      admin: {
+        db: config.admin.db
+      , options: {
+          okay_if_exists: true
+        } 
+      }
+    , "public": {
+        db: config["public"].db
+      , options: {
+          okay_if_exists: true
         }
       }
     },
     couchapp: {
-      blog: config.couchapp
+      admin: config.admin
+    , "public": config["public"]
     }
   });
 
@@ -64,14 +98,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-couchapp');
 
+  grunt.registerTask('replicate', "Set up filtered replication between admin and public.", require('./replicate'))
+
   // Default task(s).
-  grunt.registerTask('default', [
-    'jshint',
-    'concat',
-    'uglify',
-    'jade',
-    'cssmin',
-    'couchapp'
-  ]);
+  var default_tasks = ['jshint', 'concat', 'uglify', 'jade', 'cssmin', 'mkcouchdb:admin', 'couchapp:admin']
+  if('public' in config){
+    default_tasks.push('mkcouchdb:public')
+    default_tasks.push('couchapp:public')
+    if('replication_db' in config){
+      default_tasks.push('replicate')
+    }
+  }
+  grunt.registerTask('default', default_tasks);
 
 };
