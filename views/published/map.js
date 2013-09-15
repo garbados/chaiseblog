@@ -1,5 +1,5 @@
 function(doc){
 	if(doc.status){
-		emit(doc.date, doc);
+		emit(doc.date, null);
 	}
 }

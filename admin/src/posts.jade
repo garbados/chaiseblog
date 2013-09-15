@@ -1,15 +1,15 @@
 .row
-  .col-md-10.col-md-offset-2
+  .col-md-9.col-md-offset-1
     .jumbotron
       p Why not 
         a(href="#/new") write something?
 .row(ng-repeat="post in posts | orderBy:'date':true ")
-  ul.col-md-2.list-unstyled(id="{{ post._id }}")
+  ul.col-md-1.list-unstyled(id="{{ post._id }}")
     li(style="text-align: right;")
       a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
     li(style="text-align: right;")
       a(href="#/edit/{{ post._id }}") Edit
     li(style="text-align: right;")
       a(ng-click="delete(post)") Delete
-  .col-md-10
+  .col-md-9
     .jumbotron(ng-bind-html-unsafe="post.body | markdown")
