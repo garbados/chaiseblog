@@ -86,6 +86,9 @@ module.exports = function(grunt) {
         'public': config.public.db,
         admin: config.admin.db
       }
+    },
+    make_public: {
+      blog: config.public
     }
   });
 
@@ -104,6 +107,7 @@ module.exports = function(grunt) {
     default_tasks.push('mkcouchdb:public');
     default_tasks.push('couchapp:public');
     default_tasks.push('replication');
+    default_tasks.push('make_public');
   }
   grunt.registerTask('default', default_tasks);
 
