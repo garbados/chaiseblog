@@ -5,7 +5,7 @@ var app = angular.module('app', [])
 // root URL for the database. 
 // Change if you change the name of the database
 // or the similarly-named value in `rewrites.json`
-.constant('root', '/chaise')
+.constant('root', '/chaise-admin')
 // markdown converter
 .value('md', new Showdown.converter())
 // get posts from a given view
@@ -37,17 +37,17 @@ var app = angular.module('app', [])
   };
 }])
 // delete posts :O
-.factory('deletePost', function($http, root){
+.factory('deletePost', ['$http', 'root', function($http, root){
   return function(post){
     return $http({
-      url: [root, post._id].join('/')
-    , method: 'DELETE'
-    , params: {
+      url: [root, post._id].join('/'),
+      method: 'DELETE',
+      params: {
         rev: post._rev
       }
-    })
-  }
-})
+    });
+  };
+}])
 // autosave posts while writing them
 .factory('autosave', ['$http', '$timeout', 'root', function($http, $timeout, root){
   return function(post){
@@ -85,29 +85,31 @@ var app = angular.module('app', [])
     }
   });
 }])
-.factory('listCtrl', function(getPosts, deletePost){
+.factory('listCtrl', ['getPosts', 'deletePost', function(getPosts, deletePost){
   return function($scope, view){
     $scope.delete = function(post){
       if(confirm("Are you sure you want to delete that post?")){
         deletePost(post).success(function(){
-          $scope.posts = $scope.posts.filter(function(doc){ return doc._id !== post._id })
-        }) 
+          $scope.posts = $scope.posts.filter(function (doc) {
+            return doc._id !== post._id;
+          });
+        });
       }
-    }
+    };
     getPosts(view, {
       success: function(docs){
         $scope.posts = docs;
       }
     });
-  }
-})
+  };
+}])
 // list all posts
 .controller('PostsCtrl', ['$scope', 'listCtrl', function($scope, listCtrl){
-  listCtrl($scope, 'published')
+  listCtrl($scope, 'published');
 }])
 // list all drafts
 .controller('DraftsCtrl', ['$scope', 'listCtrl', function($scope, listCtrl){
-  listCtrl($scope, 'drafts')
+  listCtrl($scope, 'drafts');
 }])
 // form for a new post
 .controller('NewCtrl', ['$scope', '$http', '$location', 'root', function($scope, $http, $location, root){

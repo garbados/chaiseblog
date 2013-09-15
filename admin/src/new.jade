@@ -1,14 +1,9 @@
 //- edit stuff
 .row
-  .col-md-12
+  .col-md-10.col-md-offset-2
     form.newpost(ng-submit="submit()")
-      textarea(ng-model="post.body", autofocus, style="width: 100%; height: 100%;")
-      input.btn.btn-info.btn-small.pull-right(type="submit")
-      label.col-md-1.pull-right(class="checkbox")
+      textarea(ng-model="post.body", autofocus, style="width: 100%; height: 600px;")
+      label.col-md-1.pull-left(class="checkbox")
         input(type="checkbox", ng-model="post.status")
         span Publish?
-//- preview stuff
-.row
-  .col-md-12
-    .newpost-preview
-      .jumbotron(ng-bind-html-unsafe="post.body | markdown")
+      input.btn.btn-info.btn-small.pull-right(type="submit")
