@@ -11,7 +11,8 @@ module.exports = function(grunt) {
         'admin/app.js',
         'public/src/js/app.js',
         'public/app.js',
-        'Gruntfile.js'
+        'Gruntfile.js',
+        'tasks/*'
       ],
       options: {}
     },
@@ -70,8 +71,22 @@ module.exports = function(grunt) {
         }
       }
     },
-    mkcouchdb: config.couchapp,
-    couchapp: config.couchapp
+    mkcouchdb: {
+      'public': config.public,
+      admin: config.admin,
+      replication: config.replication
+    },
+    couchapp: {
+      'public': config.public,
+      admin: config.admin
+    },
+    replication: {
+      blog: {
+        db: config.replication.db,
+        'public': config.public.db,
+        admin: config.admin.db
+      }
+    }
   });
 
   // Load plugins
@@ -81,17 +96,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jade');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-couchapp');
-
-  grunt.registerTask('replicate', "Set up filtered replication between admin and public.", require('./replicate'));
+  grunt.loadTasks('./tasks');
 
   // Default task(s).
   var default_tasks = ['jshint', 'concat', 'uglify', 'jade', 'cssmin', 'mkcouchdb:admin', 'couchapp:admin'];
   if('public' in config){
     default_tasks.push('mkcouchdb:public');
     default_tasks.push('couchapp:public');
-    if('replication_db' in config){
-      default_tasks.push('replicate');
-    }
+    default_tasks.push('replication');
   }
   grunt.registerTask('default', default_tasks);
 

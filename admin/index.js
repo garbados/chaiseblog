@@ -24,7 +24,7 @@ ddoc = {
     }],
     views: couchapp.loadFiles(path.join(__dirname, '..', 'views')),
     filters: {
-      published: function(doc, req){ return doc.status }
+      published: function(doc, req){ return (doc.status || doc._deleted); }
     },
     lists: {},
     shows: {}

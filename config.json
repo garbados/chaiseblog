@@ -2,21 +2,24 @@
   "jade": {
     "title": "Chaiseblog"
   },
-  "couchapp": {
-    "public": {
-      "db": "http://localhost:5984/chaise-public",
-      "app": "public/index.js",
-      "options": {
-        "okay_if_exists": true
-      }
-    },
-    "admin": {
-      "db": "http://localhost:5984/chaise-admin",
-      "app": "admin/index.js",
-      "options": {
-        "okay_if_exists": true
-      }
+  "public": {
+    "db": "http://localhost:5984/chaise-public",
+    "app": "public/index.js",
+    "options": {
+      "okay_if_exists": true
     }
   },
-  "replication_db": "http://localhost:5984/_replicator"
+  "admin": {
+    "db": "http://localhost:5984/chaise-admin",
+    "app": "admin/index.js",
+    "options": {
+      "okay_if_exists": true
+    }
+  },
+  "replication": {
+    "db": "http://localhost:5984/_replicator",
+    "options": {
+      "okay_if_exists": true
+    }
+  }
 }
