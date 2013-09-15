@@ -10,12 +10,20 @@ html(lang="en")
       .col-md-12
         .row
           .col-md-2
+            img(src="#{logo}", style="width: 100%;")
             h1
               a(href="#")= title
+            p= bio
+            hr
             ul.nav.nav-pills.nav-stacked
               li
                 a(href="#/drafts") Drafts
               li
                 a(href="#/new") Submit
+            hr
+            ul.nav.nav-pills.nav-stacked
+              - each link in links
+                li
+                  a(href="#{link.url}", target="_blank")= link.title
           .col-md-10(ng-view)
     script(type='text/javascript', src="js/app.min.js")

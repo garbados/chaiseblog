@@ -1,6 +1,15 @@
 {
   "jade": {
-    "title": "Chaiseblog"
+    "title": "Chaiseblog",
+    "logo": "http://eggchair.maxthayer.org/api/couch-therapy.jpg/img",
+    "bio": "The CouchApp Blog",
+    "links": [{
+      "title": "View Source",
+      "url": "https://github.com/garbados/chaiseblog"
+    },{
+      "title": "View Author",
+      "url": "http://www.maxthayer.org/"
+    }]
   },
   "public": {
     "db": "http://localhost:5984/chaise-public",

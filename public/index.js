@@ -27,7 +27,7 @@ ddoc = {
     },
     lists: {},
     shows: {}
-}
+};
 
 couchapp.loadAttachments(ddoc, path.join(__dirname, '_attachments'))
 

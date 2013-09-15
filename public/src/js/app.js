@@ -11,12 +11,12 @@ var app = angular.module('app', [])
 .value('md', new Showdown.converter())
 
 // get posts from a given view
-.factory('getPosts', function($http, root){
+.factory('getPosts', ['$http', 'root', function ($http, root){
   return function(viewname, opts){
     var posts = $http({
-      url: [root, "_design/chaiseblog/_view", viewname].join('/')
-    , method: 'GET'
-    , params: {
+      url: [root, "_design/chaise-public/_view", viewname].join('/'),
+      method: 'GET',
+      params: {
         include_docs: true
       }
     });
@@ -34,7 +34,7 @@ var app = angular.module('app', [])
     });
     return posts;
   };
-})
+}])
 
 // list all posts
 .controller('PostsCtrl', ['$scope', 'getPosts', function ($scope, getPosts) {
@@ -46,16 +46,16 @@ var app = angular.module('app', [])
 }])
 
 // list a single post, draft or otherwise
-.controller('PostCtrl' ['$scope', '$http', '$routeParams', 'root', function ($scope, $http, $routeParams, root) {
-  var doc_url = [root, $routeParams.id].join('/')
-    , post = $http.get(doc_url);
+.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'root', function ($scope, $http, $routeParams, root) {
+  var doc_url = [root, $routeParams.id].join('/'),
+      post = $http.get(doc_url);
   post.success(function(data, status){
     $scope.posts = [data];
   });
 }])
 
 // url router
-.config(function($routeProvider, $locationProvider){
+.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider){
   $routeProvider
   .when('/', {
     templateUrl: 'posts.html',
@@ -68,11 +68,11 @@ var app = angular.module('app', [])
   .otherwise({
     redirectTo: '/'
   });
-})
+}])
 
 // markdown filter for dynamic content
-.filter('markdown', function(md){
+.filter('markdown', ['md', function(md){
   return function(input){
     if(input) return md.makeHtml(input);
   };
-});
+}]);
