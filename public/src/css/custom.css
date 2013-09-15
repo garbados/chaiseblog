@@ -1,9 +1,7 @@
-.newpost {
-  height: 200px;
+img {
+  max-width: 100%;
 }
 
-.newpost-preview {
-  margin-top: 10px;
-  height: 400px;
-  overflow: scroll;
+.post > ul {
+  margin-top: 21px;
 }
