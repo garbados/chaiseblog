@@ -18,9 +18,9 @@
     "browserify": "browserify app/javascripts/index.js -o app/_attachments/app.js",
     "jade": "jade app/templates -O config.json --out app/_attachments",
     "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",
-    "mkdb": "curl -X PUT http://localhost:5984/chaiseblog",
-    "deploy": "npm run mkdb; couchapp push app/index.js http://localhost:5984/chaiseblog",
     "bundle": "npm run browserify && npm run jade && npm run cssmin",
+    "mkdb": "curl -X PUT `cat COUCH_URL`/`cat DIARY_NAME`",
+    "deploy": "npm run mkdb; couchapp push app/index.js `cat COUCH_URL`/`cat DIARY_NAME`",
     "start": "npm run bundle && npm run deploy"
   },
   "repository": {
@@ -28,7 +28,7 @@
     "url": "git://github.com/garbados/chaiseblog.git"
   },
   "author": "Diana Thayer <me@dianathayer.org>",
-  "license": "BSD",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/garbados/chaiseblog/issues"
   }
