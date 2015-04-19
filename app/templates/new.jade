@@ -1,13 +1,18 @@
+.row
+  .col-md-12
+    h1 What's on your mind?
+    //- TODO hide this tip under a link or somesuch
+    p Write using 
+      a(href="http://daringfireball.net/projects/markdown/syntax") Markdown
+      span  and using 
+      code ```
+      span  to activate 
+      a(href="http://jakiestfu.github.io/Behave.js/") Behave.js
 form(ng-submit="submit()")
-  .row
-    .col-md-10
-      .form-group
-        textarea(ng-model="post.body", autofocus, style="width: 100%; height: 600px;")
-  .row
-    .col-md-2.col-md-offset-8
-      .pull-right
-        .checkbox
-          label Publish?
-            input(type="checkbox", ng-model="post.status")
-        .form-group
-            input.btn.btn-success(type="submit")
+  .form-group
+    textarea(ng-model="post.body", autofocus, behave, style="width:100%; height:400px;")
+  .checkbox
+    label
+      input(type="checkbox", ng-model="post.status", ng-init="true")
+      span Publish?
+  button.btn.btn-success(type="submit") Save

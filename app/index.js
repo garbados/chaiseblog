@@ -9,6 +9,10 @@ ddoc = {
         "method": "GET",
         "query": {}
     },{
+        "from": "/data",
+        "to": "/../..",
+        "query": {}
+    },{
         "from": "/data/*",
         "to": "/../../*",
         "query": {}
@@ -19,9 +23,8 @@ ddoc = {
         "query": {}
     }],
     views: {
-        status: {
-            map: function (doc) { emit([doc.status, doc.date]); },
-            reduce: '_count'
+        all: {
+            map: function (doc) { emit(doc.date, doc.status); }
         },
         drafts: {
             map: function (doc) { if (!doc.status) emit(doc.date, null); }

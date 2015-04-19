@@ -1,15 +1,15 @@
-.row
-  .col-md-8.col-md-offset-2
-    .jumbotron
-      p Why not 
-        a(href="#/new") write something?
-.post.row(ng-repeat="post in posts | orderBy:'date':true ")
-  ul.col-md-2.list-unstyled(id="{{ post._id }}")
-    li(style="text-align: right;")
-      a(href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
-    li(style="text-align: right;")
-      a(href="#/edit/{{ post._id }}") Edit
-    li(style="text-align: right;")
-      a(ng-click="delete(post)") Delete
+.row(ng-hide="posts.length")
+  .col-md-12
+    h1 No posts :(
+    a.btn.btn-info(ng-href="#/new") Write something!
+.row.post(ng-repeat="post in posts | orderBy:'date':true ")
+  .col-md-2(id="{{ post._id }}")
+    ul.nav.nav-pills.nav-stacked
+      li
+        a(ng-href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
+      li
+        a(ng-href="#/edit/{{ post._id }}") Edit
+      li
+        a(href="" ng-click="delete(post)") Delete
   .col-md-8
-    div(ng-bind-html-unsafe="post.body | markdown")
+    div(ng-bind-html="post.body | markdown")
