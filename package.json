@@ -4,20 +4,22 @@
   "description": "A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).",
   "main": "app.js",
   "devDependencies": {
+    "browserify": "^9.0.8",
     "couchapp": "git://github.com/mikeal/node.couchapp.js.git",
-    "grunt": "~0.4.1",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-cssmin": "~0.6.1",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-couchapp": "~0.2.0",
-    "grunt-jade": "~0.4.0",
+    "cssmin": "^0.4.3",
+    "jshint": "^2.7.0",
     "nano": "~4.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "grunt"
+    "test": "npm run jshint",
+    "jshint": "jshint app/javascripts app/index.js",
+    "browserify": "browserify app/javascripts/index.js -o app/_attachments/app.js",
+    "jade": "jade --pretty app/templates --out app/_attachments",
+    "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",
+    "mkdb": "curl -X PUT http://localhost:5984/chaiseblog",
+    "deploy": "couchapp push app/index.js http://localhost:5984/chaiseblog",
+    "prestart": "npm test && npm run jshint && npm run browserify && npm run jade && npm run cssmin",
+    "start": "npm run mkdb; npm run deploy"
   },
   "repository": {
     "type": "git",
