@@ -11,5 +11,5 @@
         a(ng-href="#/edit/{{ post._id }}") Edit
       li
         a(href="" ng-click="delete(post)") Delete
-  .col-md-8
+  .col-md-10
     div(ng-bind-html="post.body | markdown")
