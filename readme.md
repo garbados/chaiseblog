@@ -1,6 +1,7 @@
 # Chaise Blog
 
 [couchdb]: http://couchdb.apache.org/
+[cloudant]: https://cloudant.com/
 
 A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB][couchdb].
 
@@ -34,7 +35,7 @@ Once chaiseblog deploys your diary, you can visit it at `{COUCH_URL}/{DIARY_NAME
 
 Chaiseblog uses `config.json` to store template settings, specifically the `title` of your diary. The text files `COUCH_URL` and `DIARY_NAME` tell Chaiseblog where to deploy your diary.
 
-If your CouchDB instance requires authentication (for example, if you use [Cloudant](https://cloudant.com/)), modify `COUCH_URL` with your username and password, like this:
+If your CouchDB instance requires authentication (for example, if you use [Cloudant][cloudant]), modify `COUCH_URL` with your username and password, like this:
 
 		https://user:pass@user.cloudant.com
 

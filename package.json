@@ -1,6 +1,6 @@
 {
   "name": "chaiseblog",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).",
   "main": "app.js",
   "devDependencies": {
