@@ -1,6 +1,8 @@
 # Chaise Blog
 
-A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).
+[couchdb]: http://couchdb.apache.org/
+
+A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB][couchdb].
 
 ![Chaise Blog](http://upload.wikimedia.org/wikipedia/commons/4/43/Chaise_longue_Faventia.jpg)
 
@@ -8,7 +10,9 @@ For those thoughts you want to reflect on alone, lay back on the chaise and rela
 
 ## Install
 
-To get your own Chaiseblog, just do this:
+Before you can get your own Chaiseblog, you'll need a [CouchDB][couchdb] instance running somewhere, or an account at [Cloudant][cloudant].
+
+To install and deploy your diary, just do this:
 
 		# get the code!
 		git clone https://github.com/garbados/chaiseblog.git
