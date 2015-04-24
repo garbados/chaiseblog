@@ -15,13 +15,13 @@ html(lang="en")
     <![endif]-->
   body.container-fluid(ng-app="app")
     .row
-      .col-md-12
+      .col-xs-12
         .page-header
           h1= title
     .row
-      .col-md-12
+      .col-xs-12
         .row
-          .col-md-2
+          .col-xs-2
             ul.nav.nav-pills.nav-stacked
               li
                 a(href="#") Posts
@@ -29,5 +29,5 @@ html(lang="en")
                 a(href="#/drafts") Drafts
               li
                 a(href="#/new") New
-          .col-md-10(ng-view)
+          .col-xs-10(ng-view)
     script(type='text/javascript', src="app.js")

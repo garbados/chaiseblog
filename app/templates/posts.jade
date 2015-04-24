@@ -1,9 +1,9 @@
-.row(ng-hide="posts.length")
-  .col-md-12
+.row(ng-hide="posts.length > 0")
+  .col-xs-12
     h1 No posts :(
     a.btn.btn-info(ng-href="#/new") Write something!
 .row.post(ng-repeat="post in posts | orderBy:'date':true ")
-  .col-md-2(id="{{ post._id }}")
+  .col-xs-2(id="{{ post._id }}")
     ul.nav.nav-pills.nav-stacked
       li
         a(ng-href="#/post/{{ post._id }}") {{ post.date | date:'MM/dd/yyyy' }}
@@ -11,5 +11,5 @@
         a(ng-href="#/edit/{{ post._id }}") Edit
       li
         a(href="" ng-click="delete(post)") Delete
-  .col-md-10
-    div(ng-bind-html="post.body | markdown")
+  .col-xs-10
+    article.well(ng-bind-html="post.body | markdown")
