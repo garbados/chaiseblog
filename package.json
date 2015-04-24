@@ -19,7 +19,7 @@
     "jade": "jade app/templates -O config.json --out app/_attachments",
     "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",
     "bundle": "npm run browserify && npm run jade && npm run cssmin",
-    "mkdb": "eval DIARY_URL=`cat COUCH_URL`/`cat DIARY_NAME` && curl -X PUT $DIARY_URL",
+    "mkdb": "eval DIARY_URL=`cat COUCH_URL`/`cat DIARY_NAME` && echo $DIARY_URL && curl -X PUT $DIARY_URL",
     "deploy": "npm run mkdb; couchapp push app/index.js `cat COUCH_URL`/`cat DIARY_NAME`",
     "verify": "curl --head `cat COUCH_URL`/`cat DIARY_NAME`/_design/diary/_rewrite",
     "start": "npm run bundle && npm run deploy"
