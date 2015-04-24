@@ -20,11 +20,7 @@ To install and deploy your diary, just do this:
 		cd chaiseblog
 		# install dependencies
 		npm install
-		# set the url for your database; defaults to "http://localhost:5984"
-		vi COUCH_URL
-		# set the name of your diary's database; defaults to "chaiseblog"
-		vi DIARY_NAME
-		# customize your diary; defaults to {"title": "Your Diary"}
+		# customize your diary's template and deployment settings
 		vi config.json
 		# build and deploy your diary
 		npm start
