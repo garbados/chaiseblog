@@ -21,7 +21,7 @@
     "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",
     "bundle": "npm run browserify && npm run jade && npm run cssmin",
     "mkdb": "eval DIARY_URL=`json -f config.json 'db.url'`/`json -f config.json 'db.name'` && curl -X PUT $DIARY_URL",
-    "deploy": "npm run mkdb; couchapp push app/index.js `cat COUCH_URL`/`cat DIARY_NAME`",
+    "deploy": "npm run mkdb; couchapp push app/index.js `json -f config.json 'db.url'`/`json -f config.json 'db.name'`",
     "verify": "curl --head `json -f config.json 'db.url'`/`json -f config.json 'db.name'`/_design/diary/_rewrite",
     "start": "npm run bundle && npm run deploy"
   },
