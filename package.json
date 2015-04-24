@@ -8,6 +8,7 @@
     "browserify": "^9.0.8",
     "couchapp": "git://github.com/mikeal/node.couchapp.js.git",
     "cssmin": "^0.4.3",
+    "jade": "^1.9.2",
     "jshint": "^2.7.0",
     "marked": "^0.3.3"
   },
