@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "npm run jshint",
-    "jshint": "jshint app/javascripts app/index.js",
+    "jshint": "jshint app/javascripts app/index.js --exclude app/javascripts/behave.js",
     "browserify": "browserify app/javascripts/index.js -o app/_attachments/app.js",
     "jade": "jade app/templates -O config.json --out app/_attachments",
     "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",

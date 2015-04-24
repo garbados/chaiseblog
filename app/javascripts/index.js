@@ -24,7 +24,7 @@ var app = angular.module('app', [
     route('posts', 'DraftsCtrl',  '/drafts');
     route('posts', 'PostCtrl',    '/post/:id');
     route('new',   'EditCtrl',    '/edit/:id');
-    route('new',   'NewCtrl',     '/new')
+    route('new',   'NewCtrl',     '/new');
 
     // 404
     $routeProvider.otherwise({ redirectTo: '/' });
@@ -205,8 +205,8 @@ var app = angular.module('app', [
     return function (input) {
       if (!input) return;
 
-      var html = md(input)
-      var safe_html = $sce.trustAsHtml(html)
+      var html = md(input);
+      var safe_html = $sce.trustAsHtml(html);
       return safe_html;
     };
   }
