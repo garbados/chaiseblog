@@ -21,6 +21,7 @@
     "bundle": "npm run browserify && npm run jade && npm run cssmin",
     "mkdb": "curl -X PUT `cat COUCH_URL`/`cat DIARY_NAME`",
     "deploy": "npm run mkdb; couchapp push app/index.js `cat COUCH_URL`/`cat DIARY_NAME`",
+    "verify": "curl --head `cat COUCH_URL`/`cat DIARY_NAME`/_design/diary/_rewrite",
     "start": "npm run bundle && npm run deploy"
   },
   "repository": {
