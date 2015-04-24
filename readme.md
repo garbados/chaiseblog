@@ -35,9 +35,13 @@ Once chaiseblog deploys your diary, you can visit it at `{COUCH_URL}/{DIARY_NAME
 
 Chaiseblog uses `config.json` to store template settings, specifically the `title` of your diary. The text files `COUCH_URL` and `DIARY_NAME` tell Chaiseblog where to deploy your diary.
 
-If your CouchDB instance requires authentication (for example, if you use [Cloudant][cloudant]), modify `COUCH_URL` with your username and password, like this:
+If your CouchDB instance requires authentication, you can use the `$COUCHDB_USER` and `$COUCHDB_PASSWORD` environment variables to tell CouchDB your credentials without hardcoding them. 
 
-		https://user:pass@user.cloudant.com
+If you use [Cloudant][cloudant], you'll need to modify `COUCH_URL` like this:
+
+		https://$CLOUDANT_USER:$CLOUDANT_PASSWORD@user.cloudant.com
+
+Then you can set the `$CLOUDANT_USER` and `$CLOUDANT_PASSWORD` environment variables to match your credentials or API key.
 
 ## License
 
