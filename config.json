@@ -1,3 +1,9 @@
 {
-  "title": "Your Diary"
+  "templates": {
+    "title": "Your Diary"
+  },
+  "db": {
+    "url": "http://$COUCHDB_USER:$COUCHDB_PASS@localhost:5984",
+    "name": "chaiseblog"
+  }
 }
