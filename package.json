@@ -12,7 +12,9 @@
     "jshint": "^2.7.0",
     "marked": "^0.3.3",
     "node-sass": "^3.2.0",
-    "serve": "^1.4.0"
+    "pouchdb": "^3.6.0",
+    "serve": "^1.4.0",
+    "watch": "^0.16.0"
   },
   "scripts": {
     "postinstall": "bower install",
@@ -20,9 +22,10 @@
     "start": "npm run build && serve build",
     "build": "mkdir build; npm run test && npm run sass && npm run browserify && npm run jade",
     "sass": "node-sass app/stylesheets/style.scss --include-path bower_components --output-style compressed > build/style.css",
-    "jshint": "jshint app/javascripts app/index.js",
+    "jshint": "jshint app/javascripts",
     "browserify": "browserify app/javascripts/index.js -o build/app.js",
-    "jade": "jade app/templates --out build"
+    "jade": "jade app/templates --out build",
+    "watch": "watch 'npm run build' app"
   },
   "repository": {
     "type": "git",

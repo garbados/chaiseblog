@@ -1,3 +1,5 @@
+window.PouchDB = require('pouchdb');
+
 // initialize the app :D
 require('angular').module('app', [
   // dependencies!
@@ -30,41 +32,11 @@ require('angular').module('app', [
 /* CONSTANTS */
 .constant('md', require('marked'))
 .constant('db', 'posts')
-.constant('ddoc', {
-  _id: '_design/diary',
-  views: {
-    all: {
-      map: function (doc) {
-        emit(doc.date, null);
-      }
-    },
-    drafts: {
-      map: function (doc) {
-        if (!doc.status)
-          emit(doc.date, null);
-      }
-    },
-    published: {
-      map: function (doc) {
-        if (doc.status)
-          emit(doc.date, null);
-      }
-    }
-  }
-})
-/* CREATE DDOC */
-.run([
-  'pouchDB', 'db', 'ddoc',
-  function (pouchDB, db, ddoc) {
-    pouchDB(db).put(ddoc);
-  }
-])
 // get posts from a given view
 .factory('getPosts', [
   'pouchDB', 'db',
   function (pouchDB, db) {
-    return function (viewname, opts) {
-      var view = ['diary', viewname || 'all'].join('/');
+    return function (view, opts) {
       return pouchDB(db).query(view, {
         include_docs: true
       });
@@ -95,8 +67,10 @@ require('angular').module('app', [
           });
         }
       };
-      getPosts(view).then(function (docs) {
-        $scope.posts = docs;
+      getPosts(view).then(function (res) {
+        $scope.posts = res.rows.map(function (row) {
+          return row.doc;
+        });
       });
     };
   }
@@ -105,29 +79,34 @@ require('angular').module('app', [
 .controller('PostsCtrl',  [
   '$scope', 'listCtrl',
   function ($scope, listCtrl) {
-    listCtrl($scope, 'published');
+    listCtrl($scope, function (doc) {
+      if (doc.status)
+        emit(doc.date, null);
+    });
   }
 ])
 // list all drafts
 .controller('DraftsCtrl', [
   '$scope', 'listCtrl',
   function ($scope, listCtrl) {
-    listCtrl($scope, 'drafts');
+    listCtrl($scope, function (doc) {
+      if (!doc.status)
+        emit(doc.date, null);
+    });
   }
 ])
 // form for a new post
 .controller('NewCtrl', [
-  '$scope', '$http', '$location', 'root',
-  function ($scope, $http, $location, root) {
+  '$scope', '$location', 'pouchDB', 'db',
+  function ($scope, $location, pouchDB, db) {
     $scope.submit = function () {
       $scope.post.date = Date.now();
-      $http({
-        url: root,
-        method: 'POST',
-        data: $scope.post
-      }).success(function (data, status) {
+      $scope.post._id = String($scope.post.date);
+      pouchDB(db).put($scope.post)
+      .then(function () {
         $location.path('/');
-      }).error(function () {
+      })
+      .catch(function () {
         console.log(arguments);
       });
     };
@@ -138,8 +117,9 @@ require('angular').module('app', [
   '$scope', '$location', '$routeParams', 'pouchDB', 'db',
   function ($scope, $location, $routeParams, pouchDB, db_name) {
     var db = pouchDB(db_name);
-    var post = db.get($routeParams.id);
-    post.then(function (res) {
+
+    db.get($routeParams.id)
+    .then(function (res) {
       $scope.post = res;
     });
 
@@ -158,11 +138,17 @@ require('angular').module('app', [
 // list a single post, draft or otherwise
 .controller('PostCtrl', [
   '$scope', '$routeParams', 'pouchDB', 'db',
-  function ($scope, $routeParams, pouchDB, db_name) {
+  function ($scope, $routeParams, pouchDB, db) {
     pouchDB(db).get($routeParams.id).then(function (res) {
       $scope.posts = [res];
     });
   }
+])
+// import posts from a URL
+.controller('ImportCtrl', [
+])
+// export posts to a URL
+.controller('ExportCtrl', [
 ])
 // markdown filter for dynamic content
 .filter('markdown', [
