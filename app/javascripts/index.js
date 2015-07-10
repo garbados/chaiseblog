@@ -24,6 +24,8 @@ require('angular').module('app', [
     route('posts', 'PostCtrl',    '/post/:id');
     route('new',   'EditCtrl',    '/edit/:id');
     route('new',   'NewCtrl',     '/new');
+    route('port',  'ImportCtrl',  '/import');
+    route('port',  'ExportCtrl',  '/export');
 
     // 404
     $routeProvider.otherwise({ redirectTo: '/' });
@@ -31,7 +33,7 @@ require('angular').module('app', [
 ])
 /* CONSTANTS */
 .constant('md', require('marked'))
-.constant('db', 'posts')
+.constant('db', 'diary')
 // get posts from a given view
 .factory('getPosts', [
   'pouchDB', 'db',
@@ -146,9 +148,45 @@ require('angular').module('app', [
 ])
 // import posts from a URL
 .controller('ImportCtrl', [
+  '$scope', 'pouchDB', 'db',
+  function ($scope, pouchDB, db) {
+    // TODO
+    $scope.title = "Import";
+    $scope.done = false;
+    $scope.action = function (url) {
+      $scope.working = true;
+      pouchDB(db).replicate.from(url)
+      .on('change', function () {
+        console.log(arguments);
+      })
+      .on('complete', function () {
+        $scope.done = true;
+      })
+      .on('error', function () {
+        // TODO report errors
+        console.log(arguments);
+      });
+    };
+  }
 ])
 // export posts to a URL
 .controller('ExportCtrl', [
+  '$scope', 'pouchDB', 'db',
+  function ($scope, pouchDB, db) {
+    $scope.title = "Export";
+    $scope.done = false;
+    $scope.action = function (url) {
+      $scope.working = true;
+      pouchDB(db).replicate.from(url)
+      .on('complete', function () {
+        $scope.done = true;
+      })
+      .on('error', function () {
+        // TODO report errors
+        console.log(arguments);
+      });
+    };
+  }
 ])
 // markdown filter for dynamic content
 .filter('markdown', [

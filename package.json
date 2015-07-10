@@ -17,15 +17,15 @@
     "watch": "^0.16.0"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "test": "npm run jshint",
-    "start": "npm run build && serve build",
-    "build": "mkdir build; npm run test && npm run sass && npm run browserify && npm run jade",
-    "sass": "node-sass app/stylesheets/style.scss --include-path bower_components --output-style compressed > build/style.css",
-    "jshint": "jshint app/javascripts",
-    "browserify": "browserify app/javascripts/index.js -o build/app.js",
-    "jade": "jade app/templates --out build",
-    "watch": "watch 'npm run build' app"
+    "postinstall":    "bower install",
+    "test":           "npm run jshint",
+    "start":          "npm run build && serve build",
+    "build":          "mkdir build; npm run test && npm run sass && npm run browserify && npm run jade",
+    "sass":           "node-sass app/stylesheets/style.scss --include-path bower_components --output-style compressed > build/style.css",
+    "jshint":         "jshint app/javascripts",
+    "browserify":     "browserify app/javascripts/index.js -o build/app.js",
+    "jade":           "jade app/templates --out build",
+    "watch":          "watch 'npm run build && echo Ready!' app"
   },
   "repository": {
     "type": "git",
