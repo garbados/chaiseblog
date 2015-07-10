@@ -1,9 +1,0 @@
-{
-  "templates": {
-    "title": "Your Diary"
-  },
-  "db": {
-    "url": "http://localhost:5984",
-    "name": "chaiseblog"
-  }
-}

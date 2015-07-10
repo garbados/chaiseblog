@@ -1,16 +1,15 @@
-var behave = require('./behave');
-var angular = require('angular');
-var markdown = require('marked');
+window.PouchDB = require('pouchdb');
 
 // initialize the app :D
-var app = angular.module('app', [
+require('angular').module('app', [
   // dependencies!
-  require('angular-route')
+  require('angular-route'),
+  require('angular-pouchdb')
 ])
 // url router
 .config([
-  '$routeProvider', '$locationProvider', 
-  function ($routeProvider, $locationProvider){
+  '$routeProvider', '$locationProvider',
+  function ($routeProvider, $locationProvider) {
     // routing convenience :D
     function route (template, ctrl, path) {
       $routeProvider.when(path, {
@@ -25,141 +24,102 @@ var app = angular.module('app', [
     route('posts', 'PostCtrl',    '/post/:id');
     route('new',   'EditCtrl',    '/edit/:id');
     route('new',   'NewCtrl',     '/new');
+    route('port',  'ImportCtrl',  '/import');
+    route('port',  'ExportCtrl',  '/export');
 
     // 404
     $routeProvider.otherwise({ redirectTo: '/' });
   }
 ])
-// inject node dependencies as constants
-.constant('md', markdown)
-.constant('behave', behave)
-// root URL for the database. 
-.factory('root', ['$location', function ($location) {
-  if ($location.absUrl().indexOf('_rewrite') !== -1)
-    return '_rewrite/data';
-  else
-    return 'data';
-}])
+/* CONSTANTS */
+.constant('md', require('marked'))
+.constant('db', 'diary')
 // get posts from a given view
 .factory('getPosts', [
-  '$http', 'root', 
-  function ($http, root){
-    return function (viewname, opts){
-      var posts = $http({
-        url: [root, "_design/diary/_view", viewname].join('/'),
-        method: 'GET',
-        params: {
-          include_docs: true
-        }
+  'pouchDB', 'db',
+  function (pouchDB, db) {
+    return function (view, opts) {
+      return pouchDB(db).query(view, {
+        include_docs: true
       });
-      if(opts.success){
-        posts.success(function(data, status){
-          var docs = data.rows.map(function(row){
-            return row.doc;
-          });
-          opts.success(docs);
-        });
-      }
-      posts.error(function(){
-        if (opts.error) {
-          opts.error.apply(opts, arguments);
-        } else {
-          console.log(arguments);
-        }
-      });
-      return posts;
     };
   }
 ])
 // delete posts :O
 .factory('deletePost', [
-  '$http', 'root', 
-  function ($http, root){
-    return function (post){
-      return $http({
-        url: [root, post._id].join('/'),
-        method: 'DELETE',
-        params: {
-          rev: post._rev
-        }
-      });
+  'pouchDB', 'db',
+  function (pouchDB, db) {
+    return function (post) {
+      return pouchDB(db).remove(post);
     };
   }
 ])
-// autosave posts while writing them
-.factory('autosave', [
-  '$http', '$timeout', 'root', 
-  function ($http, $timeout, root) {
-    return function (post){
-      (function _autosave(){
-        $http({
-          url: [root, post._id].join('/'),
-          method: 'PUT',
-          data: post
-        })
-        .success(function(data, status){
-          post._rev = data.rev;
-          // save every thirty seconds
-          $timeout(_autosave, 1000 * 30);
-        })
-        .error(function(){
-          console.log(arguments);
-        })
-        ;
-      })();
+// tool for importing / exporting data
+.factory('port', [
+  '$location', 'pouchDB', 'db',
+  function ($location, pouchDB, db) {
+    return function (direction) {
+      var url = prompt("Enter the URL for the external database");
+      pouchDB(db).replicate[direction](url);
+      $location.path('/');
     };
   }
 ])
 // used to create controllers that list posts
 // such as PostsCtrl and DraftsCtrl
 .factory('listCtrl', [
-  'getPosts', 'deletePost', 
+  'getPosts', 'deletePost',
   function (getPosts, deletePost) {
-    return function ($scope, view){
-      $scope.delete = function(post){
-        if(confirm("Are you sure you want to delete that post?")){
-          deletePost(post).success(function(){
+    return function ($scope, view) {
+      $scope.delete = function (post) {
+        if(confirm("Are you sure you want to delete that post?")) {
+          deletePost(post).then(function () {
             $scope.posts = $scope.posts.filter(function (doc) {
               return doc._id !== post._id;
             });
           });
         }
       };
-      getPosts(view, {
-        success: function (docs) {
-          $scope.posts = docs;
-        }
+      getPosts(view).then(function (res) {
+        $scope.posts = res.rows.map(function (row) {
+          return row.doc;
+        });
       });
     };
   }
 ])
 // list all posts
 .controller('PostsCtrl',  [
-  '$scope', 'listCtrl', 
-  function ($scope, listCtrl) { 
-    listCtrl($scope, 'published'); 
+  '$scope', 'listCtrl',
+  function ($scope, listCtrl) {
+    listCtrl($scope, function (doc) {
+      if (doc.status)
+        emit(doc.date, null);
+    });
   }
 ])
 // list all drafts
 .controller('DraftsCtrl', [
-  '$scope', 'listCtrl', 
-  function ($scope, listCtrl) { 
-    listCtrl($scope, 'drafts');
+  '$scope', 'listCtrl',
+  function ($scope, listCtrl) {
+    listCtrl($scope, function (doc) {
+      if (!doc.status)
+        emit(doc.date, null);
+    });
   }
 ])
 // form for a new post
 .controller('NewCtrl', [
-  '$scope', '$http', '$location', 'root', 
-  function ($scope, $http, $location, root){
-    $scope.submit = function(){
+  '$scope', '$location', 'pouchDB', 'db',
+  function ($scope, $location, pouchDB, db) {
+    $scope.submit = function () {
       $scope.post.date = Date.now();
-      $http({
-        url: root,
-        method: 'POST',
-        data: $scope.post
-      }).success(function(data, status){
+      $scope.post._id = String($scope.post.date);
+      pouchDB(db).put($scope.post)
+      .then(function () {
         $location.path('/');
-      }).error(function(){
+      })
+      .catch(function () {
         console.log(arguments);
       });
     };
@@ -167,20 +127,22 @@ var app = angular.module('app', [
 ])
 // form to edit existing post
 .controller('EditCtrl', [
-  '$scope', '$http', '$location', '$routeParams', 'root', 'autosave', 
-  function ($scope, $http, $location, $routeParams, root, autosave) {
-    var doc_url = [root, $routeParams.id].join('/'),
-        post = $http.get(doc_url);
-    post.success(function(data, status){
-      $scope.post = data;
-      autosave($scope.post);
+  '$scope', '$location', '$routeParams', 'pouchDB', 'db',
+  function ($scope, $location, $routeParams, pouchDB, db_name) {
+    var db = pouchDB(db_name);
+
+    db.get($routeParams.id)
+    .then(function (res) {
+      $scope.post = res;
     });
-    $scope.submit = function(){
-      $http.put(doc_url, $scope.post)
-      .success(function(data, status){
+
+    $scope.submit = function () {
+      db.put($scope.post)
+      .then(function () {
         $location.path('/');
       })
-      .error(function(){
+      .catch(function () {
+        // TODO error form
         console.log(arguments);
       });
     };
@@ -188,14 +150,25 @@ var app = angular.module('app', [
 ])
 // list a single post, draft or otherwise
 .controller('PostCtrl', [
-  '$scope', '$http', '$routeParams', 'root', 
-  function ($scope, $http, $routeParams, root){
-    var doc_url = [root, $routeParams.id].join('/'),
-        post = $http.get(doc_url);
-
-    post.success(function (data, status) {
-      $scope.posts = [data];
+  '$scope', '$routeParams', 'pouchDB', 'db',
+  function ($scope, $routeParams, pouchDB, db) {
+    pouchDB(db).get($routeParams.id).then(function (res) {
+      $scope.posts = [res];
     });
+  }
+])
+// import posts from a URL
+.controller('ImportCtrl', [
+  'port',
+  function (port) {
+    port('from');
+  }
+])
+// export posts to a URL
+.controller('ExportCtrl', [
+  'port',
+  function (port) {
+    port('to');
   }
 ])
 // markdown filter for dynamic content
@@ -208,22 +181,6 @@ var app = angular.module('app', [
       var html = md(input);
       var safe_html = $sce.trustAsHtml(html);
       return safe_html;
-    };
-  }
-])
-// a fancy-pantsy post-writing area
-.directive('behave', [
-  'behave',
-  function (behave) {
-    return {
-      restrict: 'A', // only activate on element attribute
-      link: function (scope, elem, attr) {
-        var textarea = elem[0];
-        var editor = new behave({ 
-          textarea: textarea,
-          fence: '```'
-        });
-      }
     };
   }
 ]);

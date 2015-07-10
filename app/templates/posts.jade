@@ -1,4 +1,7 @@
-.row(ng-hide="posts.length > 0")
+.row(ng-hide="posts")
+  .col-xs-12
+    h1 Loading...
+.row(ng-show="posts.length == 0")
   .col-xs-12
     h1 No posts :(
     a.btn.btn-info(ng-href="#/new") Write something!

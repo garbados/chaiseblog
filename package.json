@@ -1,29 +1,32 @@
 {
   "name": "chaiseblog",
-  "version": "0.2.1",
-  "description": "A simple CouchApp for blogging privately, built on [Angular.js](http://angularjs.org/) and [CouchDB](http://couchdb.apache.org/).",
+  "version": "0.3.0",
+  "description": "A diary for your browser, built on [Angular.js](http://angularjs.org/) and [PouchDB](http://pouchdb.com/).",
   "devDependencies": {
     "angular": "^1.3.15",
+    "angular-pouchdb": "^2.1.1",
     "angular-route": "^1.3.15",
+    "bower": "^1.4.1",
     "browserify": "^9.0.8",
-    "couchapp": "git://github.com/mikeal/node.couchapp.js.git",
-    "cssmin": "^0.4.3",
     "jade": "^1.9.2",
     "jshint": "^2.7.0",
-    "json": "^9.0.3",
-    "marked": "^0.3.3"
+    "marked": "^0.3.3",
+    "node-sass": "^3.2.0",
+    "pouchdb": "^3.6.0",
+    "serve": "^1.4.0",
+    "watch": "^0.16.0"
   },
   "scripts": {
-    "test": "npm run jshint",
-    "jshint": "jshint app/javascripts app/index.js --exclude app/javascripts/behave.js",
-    "browserify": "browserify app/javascripts/index.js -o app/_attachments/app.js",
-    "jade": "jade app/templates --out app/_attachments -O \"`json -o json-0 -f config.json 'templates'`\"",
-    "cssmin": "cssmin app/stylesheets/style.css > app/_attachments/style.css",
-    "bundle": "npm run browserify && npm run jade && npm run cssmin",
-    "mkdb": "eval DIARY_URL=`json -f config.json 'db.url'`/`json -f config.json 'db.name'` && curl -X PUT $DIARY_URL",
-    "deploy": "npm run mkdb; couchapp push app/index.js `json -f config.json 'db.url'`/`json -f config.json 'db.name'`",
-    "verify": "curl --head `json -f config.json 'db.url'`/`json -f config.json 'db.name'`/_design/diary/_rewrite",
-    "start": "npm run bundle && npm run deploy"
+    "postinstall":    "bower install",
+    "test":           "npm run jshint",
+    "start":          "npm run build && serve build",
+    "build":          "mkdir build; npm run test && npm run sass && npm run browserify && npm run jade",
+    "sass":           "node-sass app/stylesheets/style.scss --include-path bower_components --output-style compressed > build/style.css",
+    "jshint":         "jshint app/javascripts",
+    "browserify":     "browserify app/javascripts/index.js -o build/app.js",
+    "jade":           "jade app/templates --out build",
+    "watch":          "watch 'npm run build && echo Ready!' app",
+    "deploy":         "npm run build && ./bin/deploy"
   },
   "repository": {
     "type": "git",

@@ -17,7 +17,7 @@ html(lang="en")
     .row
       .col-xs-12
         .page-header
-          h1= title
+          h1 Your Diary
     .row
       .col-xs-12
         .row
@@ -29,5 +29,9 @@ html(lang="en")
                 a(href="#/drafts") Drafts
               li
                 a(href="#/new") New
-          .col-xs-10(ng-view)
+              li
+                a(href="#/import") Import
+              li
+                a(href="#/export") Export
+          .col-xs-10.col-md-8(ng-view)
     script(type='text/javascript', src="app.js")
