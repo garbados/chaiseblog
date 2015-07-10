@@ -1,10 +1,9 @@
 language: node_js
-services:
-- couchdb
 node_js:
-- '0.11'
-- '0.10'
-script:
-- npm test
-- npm start
-- npm run verify
+- iojs
+after_success:
+- npm run deploy
+env:
+  global:
+  - GH_REF: github.com/garbados/chaiseblog.git
+  - secure: GauwpIeybBSDehcS10AQ4jMBiwfpZfYg2mJlGvkmYPqV733fqg0Byv7uDD9i+lAwAkJZ4MaNdDRz5UEVlh0cfSmfuoq/fco3KvJ3/PIivK74I90VLU60pHt5Lp6jTxQjgSTvgJKV5P1bsOS5QdUped3JlXq5aY6QNNnBbsbORCw=

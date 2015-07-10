@@ -54,6 +54,17 @@ require('angular').module('app', [
     };
   }
 ])
+// tool for importing / exporting data
+.factory('port', [
+  '$location', 'pouchDB', 'db',
+  function ($location, pouchDB, db) {
+    return function (direction) {
+      var url = prompt("Enter the URL for the external database");
+      pouchDB(db).replicate[direction](url);
+      $location.path('/');
+    };
+  }
+])
 // used to create controllers that list posts
 // such as PostsCtrl and DraftsCtrl
 .factory('listCtrl', [
@@ -148,44 +159,16 @@ require('angular').module('app', [
 ])
 // import posts from a URL
 .controller('ImportCtrl', [
-  '$scope', 'pouchDB', 'db',
-  function ($scope, pouchDB, db) {
-    // TODO
-    $scope.title = "Import";
-    $scope.done = false;
-    $scope.action = function (url) {
-      $scope.working = true;
-      pouchDB(db).replicate.from(url)
-      .on('change', function () {
-        console.log(arguments);
-      })
-      .on('complete', function () {
-        $scope.done = true;
-      })
-      .on('error', function () {
-        // TODO report errors
-        console.log(arguments);
-      });
-    };
+  'port',
+  function (port) {
+    port('from');
   }
 ])
 // export posts to a URL
 .controller('ExportCtrl', [
-  '$scope', 'pouchDB', 'db',
-  function ($scope, pouchDB, db) {
-    $scope.title = "Export";
-    $scope.done = false;
-    $scope.action = function (url) {
-      $scope.working = true;
-      pouchDB(db).replicate.from(url)
-      .on('complete', function () {
-        $scope.done = true;
-      })
-      .on('error', function () {
-        // TODO report errors
-        console.log(arguments);
-      });
-    };
+  'port',
+  function (port) {
+    port('to');
   }
 ])
 // markdown filter for dynamic content

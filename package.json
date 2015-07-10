@@ -25,7 +25,8 @@
     "jshint":         "jshint app/javascripts",
     "browserify":     "browserify app/javascripts/index.js -o build/app.js",
     "jade":           "jade app/templates --out build",
-    "watch":          "watch 'npm run build && echo Ready!' app"
+    "watch":          "watch 'npm run build && echo Ready!' app",
+    "deploy":         "npm run build && ./bin/deploy"
   },
   "repository": {
     "type": "git",
