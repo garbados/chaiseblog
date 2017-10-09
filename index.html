@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>ChaiseBlog</title>
+	<title>A Diary</title>
 
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" href="app.css">
@@ -13,6 +13,143 @@
 	<script type="text/javascript" src="app.js"></script>
 </head>
 <body>
-	<div id="app"></div>
+	<!-- USERLAND -->
+	<section class="section">
+		<div class="container">
+			<div class="columns">
+				<nav id="nav" class="column is-narrow"></nav>
+				<div id="app" class="column"></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- TEMPLATES -->
+	<script type="text/x-tmpl-mustache" id="nav-template">
+		<aside class="menu">
+			<p class="menu-label">
+				<a href="#">{{name}}</a>
+			</p>
+			<ul class="menu-list">
+				<li><a href="#/new">New Post</a></li>
+				<li><a href="#/settings">Settings</a></li>
+			</ul>
+		</aside>
+	</script>
+
+	<script type="text/x-tmpl-mustache" id="welcome-template">
+		<h1 class="title">Hello, World!</h1>
+		<p class="subtitle">This is a diary.</p>
+		<div class="content">
+			<p>
+				{{name}} uses <a href="https://pouchdb.com/">PouchDB</a> to store your data on your browser,
+				so it never touches the network.
+			</p>
+			<p>
+				Would you like to <a href="#/new">make a new entry?</a>
+				No one will be able to see it but you.
+			</p>
+			<p>
+				You can export your data or set a backup strategy from the <a href="#/settings">settings</a> page.
+			</p>
+		</div>
+	</script>
+
+	<script type="text/x-tmpl-mustache" id="home-template">
+		<h1 class="title">Entries</h1>
+		<div class="entries"></div>
+	</script>
+
+	<script type="text/x-tmpl-mustache" id="entry-template">
+		{{#title}}<h1 class="title">{{title}}</h1>{{/title}}
+		<article class="message entry" id="{{_id}}">
+			<div class="message-header">
+				<p>{{date}}</p>
+				<span>
+					<a href="#/edit/{{_id}}">Edit</a>
+					<a href="#/delete/{{_id}}">Delete</a>
+				</span>
+			</div>
+			<div class="message-body">
+				{{text}}
+			</div>
+		</article>
+	</script>
+
+	<script type="text/x-tmpl-mustache" id="entry-edit-template">
+		{{#title}}
+			<h1 class="title">{{title}}</h1>
+			<p class="subtitle">You can write your entry in <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>.</p>
+		{{/title}}
+		<form id="edit-form">
+			<input type="hidden" class="entry-id" value="{{_id}}">
+			<input type="hidden" class="entry-rev" value="{{_rev}}">
+			<input type="hidden" class="entry-created-at" value="{{created_at}}">
+			<input type="hidden" class="entry-edited-at" value="{{edited_at}}">
+			<div class="control">
+				<textarea autofocus class="textarea entry-text" rows="20" placeholder="What's on your mind...?" value="{{text}}"></textarea>
+			</div>
+			<ul>
+				<li><input type="submit" class="button is-success is-fullwidth entry-ok" value="Save"></li>
+				<li><input type="reset" class="button is-danger is-fullwidth entry-cancel" value="Cancel"></li>
+			</ul>
+		</form>
+	</script>
+
+	<script type="text/x-tmpl-mustache" id="settings-template">
+		<h1 class="title">Settings</h1>
+    <div class="section box">
+      <h3 class="title">Backup</h3>
+      <p class="subtitle">Backup your data by replicating to a <a href="https://couchdb.apache.org/">CouchDB</a> instance.</p>
+      <p class="subtitle">Replicating with a database that already has a ChaiseBlog diary will import it automatically.</p>
+      <form id="backup-form">
+        <div class="field">
+          <label class="label">CouchDB Instance</label>
+          <div class="control">
+            <input class="input" type="text" name="couchUrl" placeholder="{http,https}://$username:$password@host:port"></input>
+          </div>
+        </div>
+        <input type="submit" class="button is-success backup-ok" value="Backup"></input>
+      </form>
+    </div>
+    <div class="section box">
+      <h3 class="title">Export</h3>
+      <p class="subtitle">It's your data. Take it with you.</p>
+      <form id="export-form">
+        <div class="field">
+          <div class="control">
+            <label class="label">Format</label>
+            <div class="select is-primary">
+              <select>
+                <option value="json">JSON</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <input type="submit" class="button is-success export-ok" value="Export"></input>
+      </form>
+    </div>
+    <div class="section box">
+      <h3 class="title">Import</h3>
+      <p class="subtitle">Already used ChaiseBlog? Import your diary.</p>
+      <form>
+        <div class="field">
+          <div class="file">
+            <label class="file-label">
+              <input class="file-input" type="file" name="import"></input>
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fa fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a file…
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <input type="submit" class="button is-success import-ok" value="Import"></input>
+      </form>
+    </div>
+	</script>
 </body>
 </html>
