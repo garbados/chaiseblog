@@ -9,21 +9,26 @@
     "browserify": "^14.4.0",
     "bulma": "^0.5.3",
     "font-awesome": "^4.7.0",
+    "minifier": "^0.8.1",
     "nodemon": "^1.12.1",
     "serve": "^6.2.0",
     "standard": "^10.0.3",
-    "tap": "^10.7.2"
+    "tap": "^10.7.2",
+    "uglify-js": "^3.1.3"
   },
   "scripts": {
     "start": "npm run build && npm run serve",
     "serve": "serve .",
     "test": "standard 'index.js' 'test.js' && node test.js",
     "build": "npm run build:js && npm run build:css",
-    "build:js": "browserify index.js -o app.js -t [ babelify ]",
+    "build:min": "npm run build && npm run build:js:min && npm run build:css:min",
+    "build:js": "browserify lib/index.js -o app.js -t [ babelify ]",
+    "build:js:min": "uglifyjs app.js -o app.min.js",
     "build:css": "rm app.css && npm run build:css:font && npm run build:css:bulma",
     "build:css:bulma": "cat node_modules/bulma/css/bulma.css >> app.css",
     "build:css:font": "cat node_modules/font-awesome/css/font-awesome.css >> app.css",
-    "watch": "nodemon --exec 'npm start' --watch 'index.js'"
+    "build:css:min": "minify app.css --output app.min.css",
+    "watch": "nodemon --exec 'npm start' --watch 'lib/*.js'"
   },
   "repository": {
     "type": "git",
