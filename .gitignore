@@ -2,3 +2,4 @@ node_modules
 app.*
 .dat
 package-lock.json
+fonts

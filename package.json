@@ -2,6 +2,7 @@
   "name": "chaiseblog",
   "version": "0.4.0",
   "description": "A static diary that stores user data in the browser, keeping it safe with them.",
+  "homepage": "https://github.com/garbados/chaiseblog",
   "repository": {
     "type": "git",
     "url": "git://github.com/garbados/chaiseblog.git"
@@ -12,12 +13,14 @@
     "url": "https://github.com/garbados/chaiseblog/issues"
   },
   "scripts": {
+    "postinstall": "npm run build:fonts",
     "start": "npm run build && npm run serve",
     "serve": "serve . -i node_modules .git .dat",
     "test": "standard 'index.js' 'test.js' && node test.js",
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify lib/index.js -o app.js -t [ babelify ]",
     "build:css": "node-sass style.scss app.css",
+    "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
     "build-min": "npm run build && npm run build:js:min && npm run build:css:min",
     "build-min:js": "uglifyjs app.js -o app.min.js",
     "build-min:css": "node-sass --output-style compressed style.scss app.min.css",
@@ -25,9 +28,9 @@
   },
   "dependencies": {
     "history": "^4.7.2",
-    "marked": "^0.3.6",
     "pouchdb": "^6.3.4",
     "preact": "^8.2.5",
+    "preact-markdown": "^0.4.0",
     "preact-router": "^2.5.7"
   },
   "devDependencies": {
