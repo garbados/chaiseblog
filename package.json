@@ -21,9 +21,6 @@
     "build:js": "browserify lib/index.js -o app.js -t [ babelify ]",
     "build:css": "node-sass style.scss app.css",
     "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
-    "build-min": "npm run build && npm run build:js:min && npm run build:css:min",
-    "build-min:js": "uglifyjs app.js -o app.min.js",
-    "build-min:css": "node-sass --output-style compressed style.scss app.min.css",
     "watch": "nodemon --exec 'npm start' --watch 'lib/*.js'"
   },
   "dependencies": {
@@ -45,7 +42,6 @@
     "serve": "^6.2.0",
     "standard": "^10.0.3",
     "tap": "^10.7.2",
-    "uglify-js": "^3.1.3"
   },
   "babel": {
     "presets": [
