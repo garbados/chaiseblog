@@ -78,81 +78,6 @@ function initDb (reset) {
 COMPONENTS
 */
 
-class Settings extends Component {
-  backup () {
-    return (e) => {
-      e.preventDefault()
-    }
-  }
-
-  restore () {}
-
-  export () {}
-
-  import () {}
-
-  render () {
-    return (
-      <div>
-        <h1 class="title">Settings</h1>
-        <div class="section box">
-          <h3 class="title">Backup</h3>
-          <p class="subtitle">Backup your data by replicating to a <a href="https://couchdb.apache.org/">CouchDB</a> instance.</p>
-          <p class="subtitle">Replicating with a database that already has a ChaiseBlog diary will import it automatically.</p>
-          <form id="backup-form">
-            <div class="field">
-              <label class="label">CouchDB Instance</label>
-              <div class="control">
-                <input class="input" type="text" name="couchUrl" placeholder="http(s?)://username:password@host:port"></input>
-              </div>
-            </div>
-            <input type="submit" class="button is-success backup-ok" value="Backup"></input>
-          </form>
-        </div>
-        <div class="section box">
-          <h3 class="title">Export</h3>
-          <p class="subtitle">It's your data. Take it with you.</p>
-          <form id="export-form">
-            <div class="field">
-              <div class="control">
-                <label class="label">Format</label>
-                <div class="select is-primary">
-                  <select>
-                    <option value="json">JSON</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <input type="submit" class="button is-success export-ok" value="Export"></input>
-          </form>
-        </div>
-        <div class="section box">
-          <h3 class="title">Import</h3>
-          <p class="subtitle">Already used ChaiseBlog? Import your diary.</p>
-          <form>
-            <div class="field">
-              <div class="file">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="import"></input>
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fa fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Choose a file…
-                    </span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <input type="submit" class="button is-success import-ok" value="Import"></input>
-          </form>
-        </div>
-      </div>
-    )
-  }
-}
-
 class Entry extends Component {
   constructor (props) {
     super(props)
@@ -347,9 +272,6 @@ class Home extends Component {
             <p>
               Would you like to <a href="#/new-entry">make a new entry?</a> No one will be able to see it but you.
             </p>
-            <p>
-              You can export your data or set a backup strategy from the <a href="#/settings">settings</a> page.
-            </p>
           </div>
         </div>
       )
@@ -372,7 +294,6 @@ class Nav extends Component {
           <li><a href="#/">Home</a></li>
           <li><a href="#/new-entry">New Entry</a></li>
           <li><a href="#/deleted">Discarded Entries</a></li>
-          <li><a href="#/settings">Settings</a></li>
         </ul>
       </aside>
     )
@@ -394,7 +315,6 @@ class App extends Component {
                 <Entries view="deleted" path="deleted" />
                 <Entries view="entries" path="show/:_id" />
                 <Entries view="entries" editing path="new-entry" />
-                <Settings path="settings" />
               </Router>
             </div>
           </div>
