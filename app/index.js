@@ -28,7 +28,7 @@ var ddoc = {
   views: {
     entries: {
       map: function (doc) {
-        if ((doc.type === 'entry') && (doc.deleted === undefined)) {
+        if ((doc.type === 'entry') && (!doc.deleted)) {
           emit(doc.created_at, null)
         }
       }.toString()
@@ -98,6 +98,15 @@ class Entry extends Component {
     }
   }
 
+  restore (doc, cb) {
+    return () => {
+      if (doc.deleted) doc.deleted = false
+      return db.put(doc)
+        .then((result) => { cb() })
+        .catch((err) => { log(err) })
+    }
+  }
+
   toggleEdit () {
     this.setState({ editing: !this.state.editing })
   }
@@ -109,6 +118,7 @@ class Entry extends Component {
       doc.text = e.target.children[0].children[0].children[0].value
       doc.updated_at = (doc.created_at ? Date.now() : undefined)
       doc.created_at = doc.created_at || Date.now()
+      if (doc.deleted) doc.deleted = false // restore entries on change
       if (!doc.type) doc.type = 'entry'
       // update and trigger reload of parent component
       var promise = doc._id ? db.put(doc) : db.post(doc)
@@ -161,19 +171,28 @@ class Entry extends Component {
             <div class='message'>
               <div class='message-header'>
                 <p>{ this.getHumanDate(doc.created_at) }</p>
-                <div class='field is-grouped'>
-                  <p class='control'>
-                    <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
-                  </p>
-                  <p class='control'>
-                    { doc.deleted ? (
+                { doc.deleted ? (
+                  <div class='field is-grouped'>
+                    <p class='control'>
+                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
+                    </p>
+                    <p class='control'>
                       <button class='button is-small is-danger' onClick={this.destroy(doc, onDelete)}>Delete</button>
-                      ) : (
-                        <button class='button is-small is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
-                      )
-                    }
-                  </p>
-                </div>
+                    </p>
+                    <p class='control'>
+                      <button class='button is-small is-success' onClick={this.restore(doc, onSave)}>Restore</button>
+                    </p>
+                  </div>
+                ) : (
+                  <div class='field is-grouped'>
+                    <p class='control'>
+                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
+                    </p>
+                    <p class='control'>
+                      <button class='button is-small is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
+                    </p>
+                  </div>
+                )}
               </div>
               <div class='message-body content'>
                 { Markdown(doc.text) }
