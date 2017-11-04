@@ -16,7 +16,7 @@
     "postinstall": "npm run build:fonts",
     "start": "npm run build && npm run serve",
     "serve": "serve . -i node_modules .git .dat",
-    "test": "standard 'index.js' 'test.js' && node test.js",
+    "test": "standard app/index.js",
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify app/index.js -o app.js -t [ babelify ]",
     "build:css": "node-sass style.scss app.css",

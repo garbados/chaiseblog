@@ -1,16 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* global emit */
+
 import createHashHistory from 'history/createHashHistory'
 import Markdown from 'preact-markdown'
 import PouchDB from 'pouchdb'
 import Router from 'preact-router'
 import { h, render, Component } from 'preact'
 
-import { name, homepage } from '../package.json'
-
-/*
-CONSTANTS
- */
-
-const MAIN_EL = '#app'
+import { name } from '../package.json'
 
 /*
 LOG
@@ -133,52 +130,52 @@ class Entry extends Component {
     return date.toDateString()
   }
 
-  render({ onDelete, onSave, doc }, { editing }) {
+  render ({ onDelete, onSave, doc }, { editing }) {
     var toggleEdit = this.toggleEdit.bind(this)
     return (
       <div>
-        <article class="entry">
+        <article class='entry'>
           { editing ? (
-            <form id="edit-form" onSubmit={ this.submit(doc, onSave) }>
-              <div class="field">
-                <div class="control">
+            <form id='edit-form' onSubmit={this.submit(doc, onSave)}>
+              <div class='field'>
+                <div class='control'>
                   <textarea
                     autofocus
-                    class="textarea entry-text"
-                    rows="10"
-                    placeholder="What's on your mind?"
-                    value={ doc.text }>
-                  </textarea>
+                    class='textarea entry-text'
+                    rows='10'
+                    placeholder='What is on your mind?'
+                    value={doc.text}
+                  />
                 </div>
               </div>
-              <div class="field is-grouped">
-                <p class="control">
-                  <input type="submit" class="button is-success" value="Save"></input>
+              <div class='field is-grouped'>
+                <p class='control'>
+                  <input type='submit' class='button is-success' value='Save' />
                 </p>
-                <p class="control">
-                  <button onClick={ toggleEdit } class="button is-danger">Cancel</button>
+                <p class='control'>
+                  <button onClick={toggleEdit} class='button is-danger'>Cancel</button>
                 </p>
               </div>
             </form>
           ) : (
-            <div class="message">
-              <div class="message-header">
+            <div class='message'>
+              <div class='message-header'>
                 <p>{ this.getHumanDate(doc.created_at) }</p>
-                <div class="field is-grouped">
-                  <p class="control">
-                    <button class="button is-small is-info" onClick={ toggleEdit }>Edit</button>
+                <div class='field is-grouped'>
+                  <p class='control'>
+                    <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
                   </p>
-                  <p class="control">
-                  { doc.deleted ? (
-                      <button class="button is-small is-danger" onClick={ this.destroy(doc, onDelete) }>Delete</button>
-                    ) : (
-                      <button class="button is-small is-warning" onClick={ this.destroy(doc, onDelete) }>Discard</button>
-                    )
-                  }
+                  <p class='control'>
+                    { doc.deleted ? (
+                      <button class='button is-small is-danger' onClick={this.destroy(doc, onDelete)}>Delete</button>
+                      ) : (
+                        <button class='button is-small is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
+                      )
+                    }
                   </p>
                 </div>
               </div>
-              <div class="message-body content">
+              <div class='message-body content'>
                 { Markdown(doc.text) }
               </div>
             </div>
@@ -209,11 +206,11 @@ class Entries extends Component {
     var reload = this.reload.bind(this)
     if (editing) {
       return (
-        <Entry editing doc={ doc } onDelete={ reload } onSave={ reload } />
+        <Entry editing doc={doc} onDelete={reload} onSave={reload} />
       )
     } else {
       return (
-        <Entry doc={ doc } onDelete={ reload } onSave={ reload } />
+        <Entry doc={doc} onDelete={reload} onSave={reload} />
       )
     }
   }
@@ -231,8 +228,8 @@ class Entries extends Component {
     } else {
       return (
         <div>
-          <h1 class="title">No entries.</h1>
-          <h2 class="subtitle">Why not <a href="#/new-entry">compose one?</a></h2>
+          <h1 class='title'>No entries.</h1>
+          <h2 class='subtitle'>Why not <a href='#/new-entry'>compose one?</a></h2>
         </div>
       )
     }
@@ -257,27 +254,27 @@ class Home extends Component {
   render (props, { hasEntries }) {
     if (hasEntries === undefined) {
       return (
-        <div></div>
+        <div />
       )
     } else if (hasEntries === false) {
       return (
         <div>
-          <h1 class="title">Hello, World!</h1>
-          <p class="subtitle">This is a diary.</p>
-          <div class="content">
+          <h1 class='title'>Hello, World!</h1>
+          <p class='subtitle'>This is a diary.</p>
+          <div class='content'>
             <p>
-              It uses <a href="https://pouchdb.com/">PouchDB</a> to store your data on your browser,
+              It uses <a href='https://pouchdb.com/'>PouchDB</a> to store your data on your browser,
               so it never touches the network.
             </p>
             <p>
-              Would you like to <a href="#/new-entry">make a new entry?</a> No one will be able to see it but you.
+              Would you like to <a href='#/new-entry'>make a new entry?</a> No one will be able to see it but you.
             </p>
           </div>
         </div>
       )
     } else {
       return (
-        <Entries view="entries" />
+        <Entries view='entries' />
       )
     }
   }
@@ -286,14 +283,14 @@ class Home extends Component {
 class Nav extends Component {
   render () {
     return (
-      <aside class="menu">
-        <p class="menu-label">
+      <aside class='menu'>
+        <p class='menu-label'>
           { name }
         </p>
-        <ul class="menu-list">
-          <li><a href="#/">Home</a></li>
-          <li><a href="#/new-entry">New Entry</a></li>
-          <li><a href="#/deleted">Discarded Entries</a></li>
+        <ul class='menu-list'>
+          <li><a href='#/'>Home</a></li>
+          <li><a href='#/new-entry'>New Entry</a></li>
+          <li><a href='#/deleted'>Discarded Entries</a></li>
         </ul>
       </aside>
     )
@@ -303,18 +300,18 @@ class Nav extends Component {
 class App extends Component {
   render () {
     return (
-      <section class="section">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-narrow">
+      <section class='section'>
+        <div class='container'>
+          <div class='columns'>
+            <div class='column is-narrow'>
               <Nav />
             </div>
-            <div class="column">
-              <Router history={ createHashHistory() }>
-                <Home default path=""/>
-                <Entries view="deleted" path="deleted" />
-                <Entries view="entries" path="show/:_id" />
-                <Entries view="entries" editing path="new-entry" />
+            <div class='column'>
+              <Router history={createHashHistory()}>
+                <Home default path='' />
+                <Entries view='deleted' path='deleted' />
+                <Entries view='entries' path='show/:_id' />
+                <Entries view='entries' editing path='new-entry' />
               </Router>
             </div>
           </div>
