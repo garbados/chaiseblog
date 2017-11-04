@@ -171,7 +171,7 @@ class Entry extends Component {
         promise = db.put(doc)
       }
       return promise
-        .then((result) => { cb() }) 
+        .then((result) => { cb() })
         .catch((err) => { log(err) })
     }
   }
@@ -191,7 +191,7 @@ class Entry extends Component {
       // update and trigger reload of parent component
       var promise = doc._id ? db.put(doc) : db.post(doc)
       promise
-        .then((result) => { 
+        .then((result) => {
           this.setState({ editing: false })
           if (window.location.hash.indexOf('new-entry') > -1) {
             // go home in a really janky way
@@ -283,7 +283,7 @@ class Entries extends Component {
   renderEntry (doc, editing) {
     var reload = this.reload.bind(this)
     if (editing) {
-      return ( 
+      return (
         <Entry editing doc={ doc } onDelete={ reload } onSave={ reload } />
       )
     } else {
@@ -302,7 +302,7 @@ class Entries extends Component {
       })
       return (
         <div>{ entries }</div>
-      ) 
+      )
     } else {
       return (
         <div>
@@ -330,7 +330,7 @@ class Home extends Component {
   }
 
   render (props, { hasEntries }) {
-    if (hasEntries === undefined) { 
+    if (hasEntries === undefined) {
       return (
         <div></div>
       )

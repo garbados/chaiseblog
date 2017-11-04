@@ -18,10 +18,10 @@
     "serve": "serve . -i node_modules .git .dat",
     "test": "standard 'index.js' 'test.js' && node test.js",
     "build": "npm run build:js && npm run build:css",
-    "build:js": "browserify lib/index.js -o app.js -t [ babelify ]",
+    "build:js": "browserify app/index.js -o app.js -t [ babelify ]",
     "build:css": "node-sass style.scss app.css",
     "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
-    "watch": "nodemon --exec 'npm start' --watch 'lib/*.js'"
+    "watch": "nodemon --exec 'npm start' --watch 'app/*.js'"
   },
   "dependencies": {
     "history": "^4.7.2",
