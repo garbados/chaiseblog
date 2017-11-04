@@ -4,7 +4,7 @@ A diary app, built on [Preact](https://preactjs.com/) and [PouchDB](http://pouch
 
 For those thoughts you want to reflect on alone, lay back on the chaise and relax.
 
-To give it a try, check out the [demo](https://chaiseblog-garbados.hashbase.io)
+To give it a try, check out the [demo](https://garbados.github.io/chaiseblog)
 
 ## Install
 
@@ -24,6 +24,13 @@ To serve the app from a local webserver (such as for development), use one of tw
 
 - `npm start`: Builds the app once and serves it at `http://localhost:5000`
 - `npm run watch`: Builds the app whenever files change. Serves the app at `http://localhost:5000`
+
+You can also serve chaiseblog over [Dat](https://datproject.org/):
+
+```
+npm run build
+dat share .
+```
 
 ## License
 
