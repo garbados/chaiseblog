@@ -7,7 +7,7 @@ A diary app, built on [Preact](https://preactjs.com/) and [PouchDB](http://pouch
 
 For those thoughts you want to reflect on alone, lay back on the chaise and relax.
 
-To give it a try, check out the [demo](https://garbados.github.io/chaiseblog)
+To give it a try, check out the [demo](https://garbados.github.io/chaiseblog).
 
 ## Install
 
