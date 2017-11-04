@@ -1,40 +1,59 @@
 {
   "name": "chaiseblog",
-  "version": "0.3.0",
-  "description": "A diary for your browser, built on [Angular.js](http://angularjs.org/) and [PouchDB](http://pouchdb.com/).",
-  "devDependencies": {
-    "angular": "^1.3.15",
-    "angular-pouchdb": "^2.1.1",
-    "angular-route": "^1.3.15",
-    "bower": "^1.4.1",
-    "browserify": "^9.0.8",
-    "jade": "^1.9.2",
-    "jshint": "^2.7.0",
-    "marked": "^0.3.3",
-    "node-sass": "^3.2.0",
-    "pouchdb": "^3.6.0",
-    "serve": "^1.4.0",
-    "watch": "^0.16.0"
-  },
-  "scripts": {
-    "postinstall":    "bower install",
-    "test":           "npm run jshint",
-    "start":          "npm run build && serve build",
-    "build":          "mkdir build; npm run test && npm run sass && npm run browserify && npm run jade",
-    "sass":           "node-sass app/stylesheets/style.scss --include-path bower_components --output-style compressed > build/style.css",
-    "jshint":         "jshint app/javascripts",
-    "browserify":     "browserify app/javascripts/index.js -o build/app.js",
-    "jade":           "jade app/templates --out build",
-    "watch":          "watch 'npm run build && echo Ready!' app",
-    "deploy":         "npm run build && ./bin/deploy"
-  },
+  "version": "0.4.0",
+  "description": "A static diary that stores user data in the browser, keeping it safe with them.",
+  "homepage": "https://github.com/garbados/chaiseblog",
   "repository": {
     "type": "git",
     "url": "git://github.com/garbados/chaiseblog.git"
   },
-  "author": "Diana Thayer <me@dianathayer.org>",
-  "license": "ISC",
+  "author": "Diana Thayer <garbados@gmail.com>",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/garbados/chaiseblog/issues"
+  },
+  "scripts": {
+    "postinstall": "npm run build:fonts",
+    "start": "npm run build && npm run serve",
+    "serve": "serve . -i node_modules .git .dat",
+    "test": "standard app/index.js",
+    "build": "npm run build:js && npm run build:css",
+    "build:js": "browserify app/index.js -o app.js -t [ babelify ]",
+    "build:css": "node-sass style.scss app.css",
+    "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
+    "watch": "nodemon --exec 'npm start' --watch 'app/*.js'"
+  },
+  "dependencies": {
+    "history": "^4.7.2",
+    "pouchdb": "^6.3.4",
+    "preact": "^8.2.5",
+    "preact-markdown": "^0.4.0",
+    "preact-router": "^2.5.7"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "bulma": "^0.5.3",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
+    "serve": "^6.2.0",
+    "standard": "^10.0.3",
+    "tap": "^10.7.2"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "h"
+        }
+      ]
+    ]
   }
 }
