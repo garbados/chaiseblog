@@ -1,12 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* global emit */
-
 import createHashHistory from 'history/createHashHistory'
-import PouchDB from 'pouchdb'
 import Router from 'preact-router'
 import { h, render, Component } from 'preact'
-
-import { name } from '../package.json'
 
 import db from './db'
 import ddoc from './ddoc'

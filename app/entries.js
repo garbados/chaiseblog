@@ -37,7 +37,9 @@ class Entry extends Component {
   }
 
   toggleEdit () {
-    this.setState({ editing: !this.state.editing })
+    return () => {
+      this.setState({ editing: !this.state.editing })
+    }
   }
 
   submit (doc, cb) {
@@ -70,7 +72,6 @@ class Entry extends Component {
   }
 
   render ({ onDelete, onSave, doc }, { editing }) {
-    var toggleEdit = this.toggleEdit.bind(this)
     return (
       <div style='margin-bottom: 24px;'>
         <article class='entry'>
@@ -92,7 +93,7 @@ class Entry extends Component {
                   <input type='submit' class='button is-success' value='Save' />
                 </p>
                 <p class='control'>
-                  <button onClick={toggleEdit} class='button is-danger'>Cancel</button>
+                  <button onClick={this.toggleEdit()} class='button is-danger'>Cancel</button>
                 </p>
               </div>
             </form>
@@ -103,7 +104,7 @@ class Entry extends Component {
                 { doc.deleted ? (
                   <div class='field is-grouped'>
                     <p class='control'>
-                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
+                      <button class='button is-small is-info' onClick={this.toggleEdit()}>Edit</button>
                     </p>
                     <p class='control'>
                       <button class='button is-small is-danger' onClick={this.destroy(doc, onDelete)}>Delete</button>
@@ -115,7 +116,7 @@ class Entry extends Component {
                 ) : (
                   <div class='field is-grouped'>
                     <p class='control'>
-                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
+                      <button class='button is-small is-info' onClick={this.toggleEdit()}>Edit</button>
                     </p>
                     <p class='control'>
                       <button class='button is-small is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
