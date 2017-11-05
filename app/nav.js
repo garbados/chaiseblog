@@ -1,4 +1,5 @@
-import { h, render, Component } from 'preact'
+import { name } from '../package.json'
+import { h, Component } from 'preact'
 
 export default class Nav extends Component {
   render () {
