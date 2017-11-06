@@ -1,7 +1,8 @@
 # chaiseblog
 
 [![Build Status](https://travis-ci.org/garbados/chaiseblog.svg?branch=master)](https://travis-ci.org/garbados/chaiseblog)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)[![Greenkeeper badge](https://badges.greenkeeper.io/garbados/chaiseblog.svg)](https://greenkeeper.io/)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Greenkeeper badge](https://badges.greenkeeper.io/garbados/chaiseblog.svg)](https://greenkeeper.io/)
 
 A diary app, built on [Preact](https://preactjs.com/) and [PouchDB](http://pouchdb.com/).
 
