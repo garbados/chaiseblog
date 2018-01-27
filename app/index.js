@@ -146,9 +146,9 @@ class Entry extends Component {
       <div>
         <article class='entry'>
           { editing ? (
-            <div class='columns'>
-              <div class='column'>
-                <form id='edit-form' onSubmit={this.submit(doc, onSave)}>
+            <form id='edit-form' onSubmit={this.submit(doc, onSave)}>
+              <div class='columns'>
+                <div class='column'>
                   <div class='field'>
                     <div class='control'>
                       <textarea
@@ -160,21 +160,21 @@ class Entry extends Component {
                       />
                     </div>
                   </div>
-                </form>
-              </div>
-              <div class='column is-narrow'>
-                <div class='field'>
-                  <p class='control'>
-                    <input type='submit' class='button is-fullwidth is-success' value='Save' />
-                  </p>
                 </div>
-                <div class='field'>
-                  <p class='control'>
-                    <button onClick={toggleEdit} class='button is-fullwidth is-danger'>Cancel</button>
-                  </p>
+                <div class='column is-narrow'>
+                  <div class='field'>
+                    <p class='control'>
+                      <input type='submit' class='button is-fullwidth is-success' value='Save' />
+                    </p>
+                  </div>
+                  <div class='field'>
+                    <p class='control'>
+                      <button onClick={toggleEdit} class='button is-fullwidth is-danger'>Cancel</button>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           ) : (
             <div class='columns'>
               <div class='column'>
