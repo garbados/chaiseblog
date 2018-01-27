@@ -1,7 +1,7 @@
 {
   "name": "chaiseblog",
-  "version": "0.4.0",
-  "description": "A static diary that stores user data in the browser, keeping it safe with them.",
+  "version": "1.0.0-alpha",
+  "description": "A diary that stores user data in the browser.",
   "homepage": "https://github.com/garbados/chaiseblog",
   "repository": {
     "type": "git",
