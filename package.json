@@ -13,14 +13,15 @@
     "url": "https://github.com/garbados/chaiseblog/issues"
   },
   "scripts": {
-    "postinstall": "npm run build:fonts",
+    "postinstall": "npm run build:fonts && npm run build:static",
     "start": "npm run build && npm run serve",
     "serve": "serve . -i node_modules .git .dat",
     "test": "standard app/index.js",
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify app/index.js -o app.js -t [ babelify ]",
-    "build:css": "node-sass style.scss app.css",
+    "build:css": "node-sass assets/style.scss app.css",
     "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
+    "build:static": "cp -r static/* .",
     "watch": "nodemon --exec 'npm start' --watch 'app/*.js'"
   },
   "dependencies": {
