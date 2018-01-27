@@ -168,11 +168,6 @@ class Entry extends Component {
                       <input type='submit' class='button is-fullwidth is-success' value='Save' />
                     </p>
                   </div>
-                  <div class='field'>
-                    <p class='control'>
-                      <button onClick={toggleEdit} class='button is-fullwidth is-danger'>Cancel</button>
-                    </p>
-                  </div>
                 </div>
               </div>
             </form>
