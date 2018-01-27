@@ -1,7 +1,8 @@
 # chaiseblog
 
-[![Build Status](https://travis-ci.org/garbados/chaiseblog.svg?branch=master)](https://travis-ci.org/garbados/chaiseblog)
+[![Stability](https://img.shields.io/badge/stability-stable-green.svg?style=flat-square)](https://nodejs.org/api/documentation.html#documentation_stability_index)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.org/garbados/chaiseblog.svg?branch=master)](https://travis-ci.org/garbados/chaiseblog)
 [![Greenkeeper badge](https://badges.greenkeeper.io/garbados/chaiseblog.svg)](https://greenkeeper.io/)
 
 A diary app, built on [Preact](https://preactjs.com/) and [PouchDB](http://pouchdb.com/). For those thoughts you want to reflect on alone, lay back on the chaise and relax.
@@ -32,7 +33,17 @@ npm install
 npm run build
 ```
 
-The contents of the folder can then be distributed as a static website.
+The contents of the folder can then be distributed as a static website. For example, to share chaiseblog over [Dat](http://datproject.org/) just do this:
+
+```bash
+dat share .
+```
+
+That will produce a `dat://` URL you can share with your friends so they can access the application.
+
+Chaiseblog includes a `.datignore` file that specifies files the application doesn't need in order to run once built. As of this writing, the entire application is 1.9 MB.
+
+## Development
 
 To serve the app from a local webserver (such as for development), use one of two scripts:
 
