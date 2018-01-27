@@ -115,7 +115,7 @@ class Entry extends Component {
     return (e) => {
       e.preventDefault()
       // update timestamps
-      doc.text = e.target.children[0].children[0].children[0].value
+      doc.text = e.target.elements[0].value
       doc.updated_at = (doc.created_at ? Date.now() : undefined)
       doc.created_at = doc.created_at || Date.now()
       if (doc.deleted) doc.deleted = false // restore entries on change
@@ -137,7 +137,7 @@ class Entry extends Component {
 
   getHumanDate (ms) {
     var date = new Date(ms)
-    return date.toDateString()
+    return date.toISOString()
   }
 
   render ({ onDelete, onSave, doc }, { editing }) {
@@ -146,56 +146,78 @@ class Entry extends Component {
       <div>
         <article class='entry'>
           { editing ? (
-            <form id='edit-form' onSubmit={this.submit(doc, onSave)}>
-              <div class='field'>
-                <div class='control'>
-                  <textarea
-                    autofocus
-                    class='textarea entry-text'
-                    rows='10'
-                    placeholder='What is on your mind?'
-                    value={doc.text}
-                  />
+            <div class='columns'>
+              <div class='column'>
+                <form id='edit-form' onSubmit={this.submit(doc, onSave)}>
+                  <div class='field'>
+                    <div class='control'>
+                      <textarea
+                        autofocus
+                        class='textarea entry-text'
+                        rows='10'
+                        placeholder='What is on your mind?'
+                        value={doc.text}
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class='column is-narrow'>
+                <div class='field'>
+                  <p class='control'>
+                    <input type='submit' class='button is-fullwidth is-success' value='Save' />
+                  </p>
+                </div>
+                <div class='field'>
+                  <p class='control'>
+                    <button onClick={toggleEdit} class='button is-fullwidth is-danger'>Cancel</button>
+                  </p>
                 </div>
               </div>
-              <div class='field is-grouped'>
-                <p class='control'>
-                  <input type='submit' class='button is-success' value='Save' />
-                </p>
-                <p class='control'>
-                  <button onClick={toggleEdit} class='button is-danger'>Cancel</button>
-                </p>
-              </div>
-            </form>
+            </div>
           ) : (
-            <div class='message'>
-              <div class='message-header'>
-                <p>{ this.getHumanDate(doc.created_at) }</p>
-                { doc.deleted ? (
-                  <div class='field is-grouped'>
-                    <p class='control'>
-                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
-                    </p>
-                    <p class='control'>
-                      <button class='button is-small is-danger' onClick={this.destroy(doc, onDelete)}>Delete</button>
-                    </p>
-                    <p class='control'>
-                      <button class='button is-small is-success' onClick={this.restore(doc, onSave)}>Restore</button>
-                    </p>
+            <div class='columns'>
+              <div class='column'>
+                <div class='box'>
+                  <div class='content'>
+                    { Markdown(doc.text) }
                   </div>
-                ) : (
-                  <div class='field is-grouped'>
-                    <p class='control'>
-                      <button class='button is-small is-info' onClick={toggleEdit}>Edit</button>
-                    </p>
-                    <p class='control'>
-                      <button class='button is-small is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
-                    </p>
-                  </div>
-                )}
+                  <p><small><em>{ this.getHumanDate(doc.created_at) }</em></small></p>
+                </div>
               </div>
-              <div class='message-body content'>
-                { Markdown(doc.text) }
+              <div class='column is-narrow'>
+                { doc.deleted ? (
+                  <form>
+                    <div class='field'>
+                      <p class='control'>
+                        <button class='button is-fullwidth is-info' onClick={toggleEdit}>Edit</button>
+                      </p>
+                    </div>
+                    <div class='field'>
+                      <p class='control'>
+                        <button class='button is-fullwidth is-danger' onClick={this.destroy(doc, onDelete)}>Delete</button>
+                      </p>
+                    </div>
+                    <div class='field'>
+                      <p class='control'>
+                        <button class='button is-fullwidth is-success' onClick={this.restore(doc, onSave)}>Restore</button>
+                      </p>
+                    </div>
+                  </form>
+                ) : (
+                  <form>
+                    <div class='field'>
+                      <p class='control'>
+                        <button class='button is-fullwidth is-info' onClick={toggleEdit}>Edit</button>
+                      </p>
+                    </div>
+                    <div class='field'>
+                      <p class='control'>
+                        <button class='button is-fullwidth is-warning' onClick={this.destroy(doc, onDelete)}>Discard</button>
+                      </p>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           )}
@@ -278,7 +300,7 @@ class Home extends Component {
     } else if (hasEntries === false) {
       return (
         <div>
-          <h1 class='title'>Hello, World!</h1>
+          <h1 class='title'>Hello, world!</h1>
           <p class='subtitle'>This is a diary.</p>
           <div class='content'>
             <p>
