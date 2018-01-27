@@ -159,6 +159,7 @@ class Entry extends Component {
                         value={doc.text}
                       />
                     </div>
+                    <p class='help'>Use <a href='https://en.wikipedia.org/wiki/Markdown#Example' target='_blank'>Markdown</a> to mark up your entries.</p>
                   </div>
                 </div>
                 <div class='column is-narrow'>
