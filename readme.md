@@ -1,6 +1,6 @@
 # chaiseblog
 
-[![Stability](https://img.shields.io/badge/stability-stable-green.svg?style=flat-square)](https://nodejs.org/api/documentation.html#documentation_stability_index)
+[![Stability](https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square)](https://nodejs.org/api/documentation.html#documentation_stability_index)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://travis-ci.org/garbados/chaiseblog.svg?branch=master)](https://travis-ci.org/garbados/chaiseblog)
 [![Greenkeeper badge](https://badges.greenkeeper.io/garbados/chaiseblog.svg)](https://greenkeeper.io/)
