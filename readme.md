@@ -1,4 +1,4 @@
-# chaiseblog
+# Chaiseblog
 
 [![Stability](https://img.shields.io/badge/stability-experimental-orange.svg)](https://nodejs.org/api/documentation.html#documentation_stability_index)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -33,7 +33,7 @@ npm install
 npm run build
 ```
 
-The contents of the folder can then be distributed as a static website. For example, to share chaiseblog over [Dat](http://datproject.org/) just do this:
+The contents of the folder can then be distributed as a static website. For example, to share Chaiseblog over [Dat](http://datproject.org/) just do this:
 
 ```bash
 dat share .
