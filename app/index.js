@@ -230,7 +230,7 @@ class Entries extends Component {
   }
 
   reload () {
-    var opts = { include_docs: true, limit: 20 }
+    var opts = { include_docs: true, limit: 20, descending: true }
     if (this.state.startkey) opts.startkey = this.state.startkey
     return db.query(`queries/${this.props.view}`, opts).then((result) => {
       this.setState({

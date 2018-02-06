@@ -3,3 +3,4 @@ app.*
 .dat
 package-lock.json
 fonts
+index.html
