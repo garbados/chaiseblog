@@ -36,7 +36,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-core": "^6.26.0",
     "babelify": "^8.0.0",
-    "browserify": "^15.0.0",
+    "browserify": "^16.0.0",
     "bulma": "^0.6.1",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.3",
