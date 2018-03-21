@@ -36,13 +36,13 @@
     "babel-preset-env": "^1.6.0",
     "babel-core": "^6.26.0",
     "babelify": "^8.0.0",
-    "browserify": "^15.0.0",
+    "browserify": "^16.1.1",
     "bulma": "^0.6.1",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
     "serve": "^6.5.3",
-    "standard": "^10.0.3",
+    "standard": "^11.0.1",
     "tap": "^11.0.0"
   },
   "babel": {
