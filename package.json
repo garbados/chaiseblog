@@ -1,6 +1,6 @@
 {
   "name": "chaiseblog",
-  "version": "1.1.1-alpha",
+  "version": "1.2.0-alpha",
   "description": "A diary that stores user data in the browser.",
   "homepage": "https://github.com/garbados/chaiseblog",
   "repository": {
