@@ -7,7 +7,7 @@ import PouchDB from 'pouchdb'
 import Router from 'preact-router'
 import { h, render, Component } from 'preact'
 
-import { name } from '../package.json'
+import { name, homepage } from '../package.json'
 
 /*
 LOG
@@ -328,6 +328,8 @@ class Nav extends Component {
           <li><a href='#/'>Home</a></li>
           <li><a href='#/new-entry'>New Entry</a></li>
           <li><a href='#/deleted'>Discarded Entries</a></li>
+          <hr />
+          <li><a href={homepage}>Source</a></li>
         </ul>
       </aside>
     )
