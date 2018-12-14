@@ -40,7 +40,7 @@
     "bulma": "^0.6.1",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.3",
-    "nodemon": "^1.12.1",
+    "nodemon": "^1.18.9",
     "serve": "^6.5.3",
     "standard": "^11.0.1",
     "tap": "^11.0.0"
