@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "history": "^4.7.2",
-    "pouchdb": "^6.3.4",
+    "pouchdb": "^7.1.0",
     "preact": "^8.2.5",
     "preact-markdown": "^0.4.0",
     "preact-router": "^2.5.7"
