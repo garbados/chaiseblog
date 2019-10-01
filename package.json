@@ -1,0 +1,61 @@
+{
+  "name": "chaiseblog",
+  "version": "1.2.0-alpha",
+  "description": "A diary that stores user data in the browser.",
+  "homepage": "https://github.com/garbados/chaiseblog",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/garbados/chaiseblog.git"
+  },
+  "author": "Diana Thayer <garbados@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/garbados/chaiseblog/issues"
+  },
+  "scripts": {
+    "postinstall": "npm run build:fonts && npm run build:static",
+    "start": "npm run build && npm run serve",
+    "serve": "serve . -i node_modules .git .dat",
+    "test": "standard app/index.js",
+    "build": "npm run build:js && npm run build:css",
+    "build:js": "browserify app/index.js -o app.js -t [ babelify ]",
+    "build:css": "node-sass assets/style.scss app.css",
+    "build:fonts": "cp -r node_modules/font-awesome/fonts fonts",
+    "build:static": "cp -r static/* .",
+    "watch": "nodemon --exec 'npm start' --watch 'app/*.js'"
+  },
+  "dependencies": {
+    "history": "^4.7.2",
+    "pouchdb": "^6.3.4",
+    "preact": "^8.2.5",
+    "preact-markdown": "^0.5.0",
+    "preact-router": "^2.5.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babelify": "^8.0.0",
+    "browserify": "^16.1.1",
+    "bulma": "^0.6.1",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
+    "serve": "^11.2.0",
+    "standard": "^11.0.1",
+    "tap": "^14.6.9"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "h"
+        }
+      ]
+    ]
+  }
+}
