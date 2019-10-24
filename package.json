@@ -39,7 +39,7 @@
     "browserify": "^16.1.1",
     "bulma": "^0.6.1",
     "font-awesome": "^4.7.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.0",
     "nodemon": "^1.12.1",
     "serve": "^11.2.0",
     "standard": "^11.0.1",
