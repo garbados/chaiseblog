@@ -41,7 +41,7 @@
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
-    "serve": "^11.2.0",
+    "serve": "^11.3.1",
     "standard": "^11.0.1",
     "tap": "^14.6.9"
   },
